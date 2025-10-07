@@ -1,0 +1,53 @@
+{
+  "name": "site",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "postinstall": "prisma generate",
+    "start": "next start",
+    "lint": "eslint",
+    "csv:merge": "node prisma/merge-csv.js",
+    "migrate:deploy": "prisma migrate deploy",
+    "migrate:status": "prisma migrate status",
+    "seed": "prisma db seed",
+    "import:products": "tsx prisma/import.ts prisma/products.csv",
+    "import:products:custom": "tsx prisma/import.ts",
+    "images:upload": "node scripts/upload-images.js",
+    "images:update-db": "node scripts/update-database-images.js",
+    "export:backup": "node prisma/export.js",
+    "categories:sync": "tsx prisma/sync-categories-from-csv.ts prisma/products.csv",
+    "taxonomy:sync": "tsx prisma/sync-taxonomy.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.15.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "bcryptjs": "^3.0.2",
+    "cloudinary": "^2.7.0",
+    "csv-parse": "^6.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "next": "15.5.2",
+    "next-intl": "^4.3.6",
+    "next-seo": "^6.8.0",
+    "prisma": "^6.15.0",
+    "razorpay": "^2.9.6",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "twilio": "^5.10.2",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.2",
+    "tailwindcss": "^4",
+    "tsx": "^4.20.5",
+    "typescript": "^5"
+  }
+}

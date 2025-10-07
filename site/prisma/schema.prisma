@@ -1,0 +1,226 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  parentId    String?
+  parent      Category? @relation("CategoryToSub", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryToSub")
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id            String        @id @default(cuid())
+  name          String
+  slug          String        @unique
+  description   String
+  mrp           Int
+  price         Int
+  sku           String        @unique
+  stock         Int           @default(0)
+  attributes    Json?
+  categoryId    String
+  category      Category      @relation(fields: [categoryId], references: [id])
+  variants      Variant[]
+  images        ProductImage[]
+  reviews       Review[]
+  orderItems    OrderItem[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([categoryId, createdAt])
+}
+
+model Variant {
+  id          String   @id @default(cuid())
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id])
+  name        String
+  sku         String   @unique
+  priceDelta  Int      @default(0)
+  stock       Int      @default(0)
+  orderItems  OrderItem[]
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  publicId  String
+  alt       String?
+  position  Int     @default(0)
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  rating    Int
+  comment   String
+  author    String?
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String
+  priceMin    Int      @default(0)
+  imagePublicId String?
+  bookings    ServiceBooking[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model User {
+  id                String    @id @default(cuid())
+  name              String
+  email             String    @unique
+  phone             String    @unique
+  password          String
+  isVerified        Boolean   @default(false)
+  isOnHold          Boolean   @default(false)
+  emailOtpHash      String?
+  phoneOtpHash      String?
+  otpExpiry         DateTime?
+  bookings          ServiceBooking[]
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model Order {
+  id            String       @id @default(cuid())
+  customer      String
+  email         String?
+  phone         String?
+  address       String
+  city          String
+  state         String?
+  pincode       String
+  totalMrp      Int
+  totalPrice    Int
+  shippingFee   Int?         @default(0)
+  status        OrderStatus  @default(PENDING)
+  paymentId     String?
+  paymentMethod String?
+  paymentDetails String?
+  items         OrderItem[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([email, createdAt])
+}
+
+model OrderItem {
+  id         String  @id @default(cuid())
+  orderId    String
+  order      Order   @relation(fields: [orderId], references: [id])
+  productId  String
+  product    Product @relation(fields: [productId], references: [id])
+  variantId  String?
+  variant    Variant? @relation(fields: [variantId], references: [id])
+  quantity   Int     @default(1)
+  unitPrice  Int
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUND_REQUESTED
+  REFUNDED
+}
+
+// Display assets managed by admin for site banners and photos
+enum DisplayAssetType {
+  HERO
+  BANNER
+  PROMO
+  LOGO
+  FRESH_PLANT
+  ABOUT_US
+  OTHER
+}
+
+model DisplayCategory {
+  id          String         @id @default(cuid())
+  name        String
+  slug        String         @unique
+  description String?
+  assets      DisplayAsset[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model DisplayAsset {
+  id          String            @id @default(cuid())
+  title       String?
+  description String?
+  type        DisplayAssetType
+  publicId    String            // Cloudinary public ID
+  url         String?
+  order       Int               @default(0)
+  active      Boolean           @default(true)
+  locale      String?
+  categoryId  String?
+  category    DisplayCategory?  @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([type, locale, order])
+}
+
+// Booking system for services with 2-hour slot exclusivity
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+model ServiceBooking {
+  id              String        @id @default(cuid())
+  serviceId       String
+  service         Service       @relation(fields: [serviceId], references: [id])
+  userId          String?
+  user            User?         @relation(fields: [userId], references: [id])
+  // Date in local format YYYY-MM-DD for simple slot generation
+  date            String
+  // Minutes from midnight local time (e.g., 9:00 AM = 540)
+  startMinutes    Int
+  durationMinutes Int           @default(120)
+  status          BookingStatus @default(PENDING)
+  customerName    String
+  customerPhone   String
+  customerEmail   String?
+  // Customer address information
+  addressLine1    String?
+  addressLine2    String?
+  city            String?
+  state           String?
+  postalCode      String?
+  // Payment tracking
+  paymentId       String?
+  amountPaid      Int           @default(0)
+  notes           String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // Exclusivity is enforced at application level for CONFIRMED bookings
+}
+
+

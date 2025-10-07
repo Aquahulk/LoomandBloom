@@ -1,0 +1,62 @@
+{
+  "maintenanceMode": false,
+  "holdBannerText": "Your account is on hold. Please contact support to get it unhold.",
+  "supportEmail": "admin@bharatpushpam.com",
+  "whatsappNumber": "7755963959",
+  "storeAddress": "Shop Add - Bharat Pushpam, Shop No. 24, Ganga Altus, Near Manipal Hospital, Kharadi - 411014",
+  "about": {
+    "heading": "About Bharat Pushpam",
+    "intro": "We provide curated indoor and outdoor plants, pots & planters, and garden services to help you create beautiful green spaces.",
+    "highlights": [
+      "Expert plant selection and care guidance",
+      "Free delivery on orders above ₹999",
+      "Plant maintenance and care services",
+      "Plants on rent for events and offices",
+      "Plant hostel service for when you're away"
+    ],
+    "social": {
+      "instagram": "https://www.instagram.com/bharat_pushpam99/",
+      "facebook": "",
+      "twitter": ""
+    }
+  },
+  "contact": {
+    "heading": "Contact Us",
+    "intro": "Have questions about our plants or services? Send us a message and we'll respond as soon as possible.\na\na\na\na\na\na\n"
+  },
+  "legal": {
+    "privacy": "Your privacy is important to us. We collect only necessary information to process orders and improve our services. We do not sell your personal data. Contact us for any data-related requests.",
+    "terms": "By using our website and services, you agree to our policies on orders, payments, returns, and service bookings. Please contact us for clarifications or support."
+  },
+  "admin": {
+    "username": "admin",
+    "passwordHash": "$2b$12$a12VtVDVZ4JqFCZlN3O9DeOUDfsxW66AGNJojlh8OzoRBKRtVxOky"
+  },
+  "invoice": {
+    "companyName": "Bharat Pushpam",
+    "companyAddress": "Shop No. 24, Ganga Altus, Near Manipal Hospital, Kharadi - 411014",
+    "gstNumber": "4365edgc",
+    "logoPublicId": "",
+    "footerNote": "Thank you for your purchase!",
+    "themeColor": "#16a34a",
+    "taxPercent": 10
+  },
+  "checkout": {
+    "minOrderValue": 100,
+    "maxOrderValue": 10000000,
+    "freeDeliveryThreshold": 99900,
+    "deliveryFee": 10000,
+    "rateLimitWindowMs": 60000,
+    "rateLimitMaxRequests": 5
+  },
+  "bookings": {
+    "bookingMaxDaysAdvance": 30,
+    "sameDayCutoffMinutes": 720,
+    "blackoutDates": [],
+    "serviceAllowedPincodes": [],
+    "capacityPerSlot": 5
+  },
+  "notifications": {
+    "enableSms": true
+  }
+}

@@ -1,0 +1,236 @@
+[
+  {
+    "id": "cmgdemhcj0000u3wkny25be87",
+    "name": "Fragrant Plants",
+    "slug": "fragrant-plants",
+    "description": null,
+    "parentId": null,
+    "createdAt": "2025-10-05T07:52:31.315Z",
+    "updatedAt": "2025-10-07T06:09:04.817Z"
+  },
+  {
+    "id": "cmgdemj160001u3wk8iq8d40q",
+    "name": "Indoor Plants",
+    "slug": "indoor-plants",
+    "description": null,
+    "parentId": null,
+    "createdAt": "2025-10-05T07:52:33.499Z",
+    "updatedAt": "2025-10-07T06:08:35.004Z"
+  },
+  {
+    "id": "cmgdemk330002u3wkt9eylwnd",
+    "name": "Outdoor Plants",
+    "slug": "outdoor-plants",
+    "description": null,
+    "parentId": null,
+    "createdAt": "2025-10-05T07:52:34.863Z",
+    "updatedAt": "2025-10-07T06:08:49.863Z"
+  },
+  {
+    "id": "cmgdeml620003u3wkbi0ykr84",
+    "name": "Fruit-Bearing Plants",
+    "slug": "fruit-bearing-plants",
+    "description": null,
+    "parentId": null,
+    "createdAt": "2025-10-05T07:52:36.267Z",
+    "updatedAt": "2025-10-07T06:09:28.369Z"
+  },
+  {
+    "id": "cmgdemm8x0004u3wktv5mrrl1",
+    "name": "Herbal & Medicinal Plants",
+    "slug": "herbal-and-medicinal-plants",
+    "description": null,
+    "parentId": null,
+    "createdAt": "2025-10-05T07:52:37.665Z",
+    "updatedAt": "2025-10-07T06:09:44.711Z"
+  },
+  {
+    "id": "cmgdemnay0005u3wkc0tuen7v",
+    "name": "Cactus & Succulents",
+    "slug": "cactus-and-succulents",
+    "description": null,
+    "parentId": null,
+    "createdAt": "2025-10-05T07:52:39.034Z",
+    "updatedAt": "2025-10-07T06:09:19.035Z"
+  },
+  {
+    "id": "cmgdemocs0006u3wko1e4txt7",
+    "name": "Bonsai Plants",
+    "slug": "bonsai-plants",
+    "description": null,
+    "parentId": null,
+    "createdAt": "2025-10-05T07:52:40.396Z",
+    "updatedAt": "2025-10-07T06:09:33.111Z"
+  },
+  {
+    "id": "cmgdempex0007u3wksku9c7x4",
+    "name": "Plastic Pots",
+    "slug": "plastic-pots",
+    "description": null,
+    "parentId": null,
+    "createdAt": "2025-10-05T07:52:41.770Z",
+    "updatedAt": "2025-10-07T06:09:56.395Z"
+  },
+  {
+    "id": "cmgdemqh70008u3wkx79et33u",
+    "name": "Round Pots",
+    "slug": "round-pots",
+    "description": null,
+    "parentId": "cmgdempex0007u3wksku9c7x4",
+    "createdAt": "2025-10-05T07:52:43.147Z",
+    "updatedAt": "2025-10-07T06:11:49.202Z"
+  },
+  {
+    "id": "cmgdemrj50009u3wkdihw97je",
+    "name": "Square Pots",
+    "slug": "square-pots",
+    "description": null,
+    "parentId": "cmgdempex0007u3wksku9c7x4",
+    "createdAt": "2025-10-05T07:52:44.514Z",
+    "updatedAt": "2025-10-07T06:09:52.144Z"
+  },
+  {
+    "id": "cmgdemskz000au3wkv3byg62j",
+    "name": "Stacking Pots",
+    "slug": "stacking-pots",
+    "description": null,
+    "parentId": "cmgdempex0007u3wksku9c7x4",
+    "createdAt": "2025-10-05T07:52:45.875Z",
+    "updatedAt": "2025-10-07T06:09:53.061Z"
+  },
+  {
+    "id": "cmgdemtvd000bu3wk9s8dvcki",
+    "name": "Hanging Pots",
+    "slug": "hanging-pots",
+    "description": null,
+    "parentId": "cmgdempex0007u3wksku9c7x4",
+    "createdAt": "2025-10-05T07:52:47.267Z",
+    "updatedAt": "2025-10-07T06:09:56.701Z"
+  },
+  {
+    "id": "cmgdemuxf000cu3wknk8nx2r4",
+    "name": "Railing Planters",
+    "slug": "railing-planters",
+    "description": null,
+    "parentId": null,
+    "createdAt": "2025-10-05T07:52:48.915Z",
+    "updatedAt": "2025-10-07T06:07:52.676Z"
+  },
+  {
+    "id": "cmgdemvze000du3wkgar9de7z",
+    "name": "Fiber Pots & Planters",
+    "slug": "fiber-pots-and-planters",
+    "description": null,
+    "parentId": null,
+    "createdAt": "2025-10-05T07:52:50.282Z",
+    "updatedAt": "2025-10-07T06:13:35.846Z"
+  },
+  {
+    "id": "cmgdemx14000eu3wku6gd19nw",
+    "name": "Tall Planters",
+    "slug": "tall-planters",
+    "description": null,
+    "parentId": "cmgdemvze000du3wkgar9de7z",
+    "createdAt": "2025-10-05T07:52:51.641Z",
+    "updatedAt": "2025-10-07T06:12:53.388Z"
+  },
+  {
+    "id": "cmgdemy3a000fu3wkfqsbwuws",
+    "name": "Cube Planters",
+    "slug": "cube-planters",
+    "description": null,
+    "parentId": "cmgdemvze000du3wkgar9de7z",
+    "createdAt": "2025-10-05T07:52:53.015Z",
+    "updatedAt": "2025-10-07T06:13:05.728Z"
+  },
+  {
+    "id": "cmgdemz5e000gu3wkliwcfixp",
+    "name": "Rectangular Planters",
+    "slug": "rectangular-planters",
+    "description": null,
+    "parentId": "cmgdemvze000du3wkgar9de7z",
+    "createdAt": "2025-10-05T07:52:54.386Z",
+    "updatedAt": "2025-10-07T06:13:15.864Z"
+  },
+  {
+    "id": "cmgden078000hu3wkxgu52idw",
+    "name": "Wall Mounted Planters",
+    "slug": "wall-mounted-planters",
+    "description": null,
+    "parentId": "cmgdemvze000du3wkgar9de7z",
+    "createdAt": "2025-10-05T07:52:55.748Z",
+    "updatedAt": "2025-10-07T06:13:23.953Z"
+  },
+  {
+    "id": "cmgden192000iu3wkvgtnh9r6",
+    "name": "Creative Planter Designs",
+    "slug": "creative-planter-designs",
+    "description": null,
+    "parentId": "cmgdemvze000du3wkgar9de7z",
+    "createdAt": "2025-10-05T07:52:57.111Z",
+    "updatedAt": "2025-10-07T06:13:36.169Z"
+  },
+  {
+    "id": "cmgg5e4u400x1u3t03pmxc1co",
+    "name": "Large Format Designer Ceramic Planters",
+    "slug": "large-format-designer-ceramic-planters",
+    "description": null,
+    "parentId": null,
+    "createdAt": "2025-10-07T05:57:23.837Z",
+    "updatedAt": "2025-10-07T06:12:18.322Z"
+  },
+  {
+    "id": "cmgg5isfp0000u3ugbyeamkxj",
+    "name": "category",
+    "slug": "category",
+    "description": "category category for Bharat Pushpam",
+    "parentId": null,
+    "createdAt": "2025-10-07T06:01:01.045Z",
+    "updatedAt": "2025-10-07T06:01:01.045Z"
+  },
+  {
+    "id": "cmgg5iu820001u3ugvci8igqi",
+    "name": "Herbal & Medicinal Plants",
+    "slug": "herbal-medicinal-plants",
+    "description": "Herbal & Medicinal Plants category for Bharat Pushpam",
+    "parentId": null,
+    "createdAt": "2025-10-07T06:01:03.363Z",
+    "updatedAt": "2025-10-07T06:01:03.363Z"
+  },
+  {
+    "id": "cmgg5iuqk0002u3ug7t633j4d",
+    "name": "Cactus & Succulents",
+    "slug": "cactus-succulents",
+    "description": "Cactus & Succulents category for Bharat Pushpam",
+    "parentId": null,
+    "createdAt": "2025-10-07T06:01:04.028Z",
+    "updatedAt": "2025-10-07T06:01:04.028Z"
+  },
+  {
+    "id": "cmgg5ix0x0003u3ugklhptbhy",
+    "name": "Fiber Pots & Planters",
+    "slug": "fiber-pots-planters",
+    "description": "Fiber Pots & Planters category for Bharat Pushpam",
+    "parentId": null,
+    "createdAt": "2025-10-07T06:01:06.994Z",
+    "updatedAt": "2025-10-07T06:01:06.994Z"
+  },
+  {
+    "id": "cmgg5iznb0005u3ugd2ikrjpj",
+    "name": "subcategory",
+    "slug": "subcategory",
+    "description": "subcategory subcategory for Bharat Pushpam",
+    "parentId": "cmgg5isfp0000u3ugbyeamkxj",
+    "createdAt": "2025-10-07T06:01:10.391Z",
+    "updatedAt": "2025-10-07T06:01:10.391Z"
+  },
+  {
+    "id": "cmgg5j5bw0007u3ugj9csg01l",
+    "name": "Ceramic Pots",
+    "slug": "ceramic-pots",
+    "description": "Ceramic Pots subcategory for Bharat Pushpam",
+    "parentId": "cmgg5e4u400x1u3t03pmxc1co",
+    "createdAt": "2025-10-07T06:01:17.756Z",
+    "updatedAt": "2025-10-07T06:12:18.654Z"
+  }
+]

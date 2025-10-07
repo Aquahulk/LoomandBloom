@@ -1,0 +1,1 @@
+-- No-op: payment fields already added in 20251003151150_relax_booking_exclusivity

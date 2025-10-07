@@ -1,0 +1,9 @@
+-- AlterTable
+ALTER TABLE "Order" ADD COLUMN "paymentDetails" TEXT;
+ALTER TABLE "Order" ADD COLUMN "paymentMethod" TEXT;
+ALTER TABLE "Order" ADD COLUMN "shippingFee" INTEGER DEFAULT 0;
+ALTER TABLE "Order" ADD COLUMN "state" TEXT;
+
+-- AlterTable
+ALTER TABLE "OrderItem" ADD COLUMN "mrp" INTEGER DEFAULT 0;
+ALTER TABLE "OrderItem" ADD COLUMN "price" INTEGER DEFAULT 0;

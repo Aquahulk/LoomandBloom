@@ -1,11 +1,12 @@
 "use client";
 import { useEffect, useState } from 'react';
+import { todayISTYYYYMMDD } from '@/app/lib/date';
 
 type Slot = { startMinutes: number; label: string; booked: boolean };
 
 export default function BookingWidget({ serviceSlug }: { serviceSlug: string }) {
-  // Use local YYYY-MM-DD to avoid UTC offset issues
-  const [date, setDate] = useState<string>(() => new Date().toLocaleDateString('en-CA'));
+  // Default to today in IST (Asia/Kolkata) to avoid user-local offsets
+  const [date, setDate] = useState<string>(() => todayISTYYYYMMDD());
   const [slots, setSlots] = useState<Slot[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

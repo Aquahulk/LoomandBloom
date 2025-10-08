@@ -13,6 +13,16 @@ export async function GET(req: NextRequest) {
       maxAge: 0,
       secure: process.env.NODE_ENV === 'production',
     });
+    // Clear role cookie
+    res.cookies.set({
+      name: 'bp_role',
+      value: '',
+      path: '/',
+      httpOnly: true,
+      sameSite: 'strict',
+      maxAge: 0,
+      secure: process.env.NODE_ENV === 'production',
+    });
     return res;
   } catch (_) {
     return NextResponse.redirect(new URL('/admin/login', req.url));

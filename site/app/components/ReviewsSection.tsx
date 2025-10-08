@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from 'react';
+import { formatDateIST } from '@/app/lib/date';
 
 type Review = {
   id: string;
@@ -76,7 +77,7 @@ export default function ReviewsSection({ locale }: { locale: string }) {
                 <div className="text-yellow-500">{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</div>
               </div>
               <div className="text-sm text-gray-600 line-clamp-4">{r.comment}</div>
-              <div className="text-xs text-gray-400 mt-2">{new Date(r.createdAt).toLocaleDateString()}</div>
+              <div className="text-xs text-gray-400 mt-2">{formatDateIST(r.createdAt)}</div>
             </div>
           ))}
         </div>

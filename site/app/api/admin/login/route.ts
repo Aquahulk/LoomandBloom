@@ -2,10 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSettings } from '@/app/lib/settings';
 import { verifyPassword } from '@/app/lib/password';
 
-// Hardcoded secret admin (stored with hashed password)
 const SECRET_ADMIN = {
   username: 'prem.pthakkar7@gmail.com',
-  // bcrypt hash for password "prempthakkar7" with cost 12
+  // bcrypt hash for password  with cost 12
   passwordHash: '$2b$12$4/bqhn/tCryVjoGpDXQ90uj5C/XSC7DeKJxzEI4AQVoxtK1Ce44V.'
 };
 
@@ -83,6 +82,16 @@ export async function POST(req: NextRequest) {
         ,
         sameSite: 'strict',
         maxAge: 60 * 60, // 1 hour session
+        secure: process.env.NODE_ENV === 'production',
+      });
+      // Also set a role cookie to explicitly mark admin role for middleware gating
+      res.cookies.set({
+        name: 'bp_role',
+        value: 'admin',
+        httpOnly: true,
+        path: '/',
+        sameSite: 'strict',
+        maxAge: 60 * 60,
         secure: process.env.NODE_ENV === 'production',
       });
       return res;

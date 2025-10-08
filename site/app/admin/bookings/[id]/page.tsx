@@ -1,5 +1,7 @@
 import { prisma } from '@/app/lib/prisma';
+import { formatDateTimeIST } from '@/app/lib/date';
 import { formatINR, paiseToRupees } from '@/app/lib/currency';
+import AdminBookingActions from '../AdminBookingActions';
 
 function formatTimeLabel(minutes: number) {
   const h = Math.floor(minutes / 60);
@@ -32,7 +34,10 @@ export default async function AdminBookingDetail({ params }: { params: Promise<{
       </div>
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Booking Details</h1>
-        <span className={`text-xs px-2 py-1 rounded ${booking.status === 'CONFIRMED' ? 'bg-green-100 text-green-700' : booking.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}`}>{booking.status}</span>
+        <div className="flex items-center gap-3">
+          <span className={`text-xs px-2 py-1 rounded ${booking.status === 'CONFIRMED' ? 'bg-green-100 text-green-700' : booking.status === 'PENDING' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}`}>{booking.status}</span>
+          <AdminBookingActions id={booking.id} status={booking.status} />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -48,7 +53,7 @@ export default async function AdminBookingDetail({ params }: { params: Promise<{
           <div className="text-sm text-gray-700">ID: {booking.id}</div>
           <div className="text-sm text-gray-700">Date: {booking.date}</div>
           <div className="text-sm text-gray-700">Time: {formatTimeLabel(booking.startMinutes)} - {formatTimeLabel(booking.startMinutes + booking.durationMinutes)}</div>
-          <div className="text-sm text-gray-700">Created: {new Date(booking.createdAt).toLocaleString()}</div>
+          <div className="text-sm text-gray-700">Created: {formatDateTimeIST(booking.createdAt)}</div>
           <div className="text-sm text-gray-700">Amount Paid: {formatINR(paiseToRupees(booking.amountPaid || 0))}</div>
           <div className="text-sm text-gray-700">Payment ID: {booking.paymentId || 'N/A'}</div>
           {booking.notes && <div className="text-sm text-gray-700">Notes: {booking.notes}</div>}

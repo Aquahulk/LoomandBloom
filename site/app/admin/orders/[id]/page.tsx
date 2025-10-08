@@ -1,4 +1,5 @@
 import { prisma } from '@/app/lib/prisma';
+import { formatDateTimeIST } from '@/app/lib/date';
 import { formatINR, paiseToRupees } from '@/app/lib/currency';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
@@ -66,15 +67,7 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
     }
   };
 
-  const formatDate = (date: Date) => {
-    return new Date(date).toLocaleString('en-IN', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
+  const formatDate = (date: Date) => formatDateTimeIST(date);
 
   const formatCurrency = (amountPaise: number) => {
     return formatINR(paiseToRupees(amountPaise));

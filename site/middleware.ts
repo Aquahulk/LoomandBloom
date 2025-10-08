@@ -11,9 +11,18 @@ function adminMiddleware(request: NextRequest) {
 
   // Check for admin authentication
   const isAuthenticated = request.cookies.get('admin_authenticated')?.value === 'true';
+  const role = request.cookies.get('bp_role')?.value;
+  const hasUserSession = !!request.cookies.get('bp_session')?.value;
   
-  if (!isAuthenticated) {
-    // Redirect to login page
+  // Require explicit admin role cookie to access admin routes.
+  // This prevents customers with a lingering admin cookie from accessing admin.
+  if (!isAuthenticated || role !== 'admin') {
+    return NextResponse.redirect(new URL('/admin/login', request.url));
+  }
+
+  // If a normal user session exists and is not marked admin, block access.
+  // Admin login does not create a bp_session; customer login does.
+  if (hasUserSession && role !== 'admin') {
     return NextResponse.redirect(new URL('/admin/login', request.url));
   }
 

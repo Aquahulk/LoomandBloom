@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic';
 import { prisma } from '@/app/lib/prisma';
 import { formatINR, paiseToRupees } from '@/app/lib/currency';
+import { formatDateIST } from '@/app/lib/date';
 
 export default async function AdminDashboard() {
   // Get dashboard statistics
@@ -121,7 +122,7 @@ export default async function AdminDashboard() {
                     <div>
                       <p className="font-medium text-gray-900">Order #{order.id.slice(-8)}</p>
                       <p className="text-sm text-gray-600">{order.customer}</p>
-                      <p className="text-xs text-gray-500">{new Date(order.createdAt).toLocaleDateString()}</p>
+                      <p className="text-xs text-gray-500">{formatDateIST(order.createdAt)}</p>
                     </div>
                     <div className="text-right">
                       <p className="font-semibold text-gray-900">{formatINR(paiseToRupees(order.totalPrice))}</p>

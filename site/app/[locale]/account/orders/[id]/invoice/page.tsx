@@ -4,6 +4,7 @@ import { notFound, redirect } from 'next/navigation';
 import { getSettings } from '@/app/lib/settings';
 import PrintButton from './PrintButton';
 import { formatINR, paiseToRupees } from '@/app/lib/currency';
+import { formatDateIST } from '@/app/lib/date';
 
 export default async function InvoicePage({ params }: { params: Promise<{ locale: string; id: string }> }) {
   const { locale, id } = await params;
@@ -30,7 +31,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ locale
   };
 
   const invoiceNumber = `INV-${order.id.slice(0,8)}`;
-  const invoiceDate = new Date(order.createdAt).toLocaleDateString('en-IN');
+  const invoiceDate = formatDateIST(order.createdAt);
   const taxPercent = Math.max(0, Math.floor((settings.invoice?.taxPercent ?? 0)));
   const taxAmount = Math.floor(order.totalMrp * taxPercent / 100);
 

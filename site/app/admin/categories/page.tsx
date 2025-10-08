@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { formatDateIST } from '@/app/lib/date';
 import { useRouter } from 'next/navigation';
 
 interface Category {
@@ -224,7 +225,7 @@ export default function CategoriesPage() {
                       {category._count.products}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {new Date(category.createdAt).toLocaleDateString()}
+                      {formatDateIST(category.createdAt)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button

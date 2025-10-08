@@ -1,5 +1,7 @@
 export const dynamic = 'force-dynamic';
 import { prisma } from '@/app/lib/prisma';
+import { formatDateTimeIST } from '@/app/lib/date';
+import AdminBookingActions from './AdminBookingActions';
 
 export default async function AdminBookingsPage() {
   const bookings = await prisma.serviceBooking.findMany({
@@ -36,9 +38,10 @@ export default async function AdminBookingsPage() {
             {b.customerEmail && <div className="text-sm text-gray-600">Email: {b.customerEmail}</div>}
             <div className="text-sm text-gray-600">Address: {[b.addressLine1, b.addressLine2, b.city, b.state, b.postalCode].filter(Boolean).join(', ')}</div>
             {b.notes && <div className="text-sm text-gray-600">Notes: {b.notes}</div>}
-            <div className="text-xs text-gray-500">Created: {new Date(b.createdAt).toLocaleString()}</div>
-            <div className="pt-2">
+            <div className="text-xs text-gray-500">Created: {formatDateTimeIST(b.createdAt)}</div>
+            <div className="pt-2 flex items-center justify-between">
               <a href={`/admin/bookings/${b.id}`} className="text-blue-600 hover:underline text-sm">View details →</a>
+              <AdminBookingActions id={b.id} status={b.status} />
             </div>
           </div>
         ))}

@@ -4,6 +4,7 @@ import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import CancelOrderButton from '../CancelOrderButton';
 import { formatINR, paiseToRupees } from '@/app/lib/currency';
+import { formatDateTimeIST } from '@/app/lib/date';
 
 export default async function AccountOrderDetailsPage({ params }: { params: Promise<{ locale: string; id: string }> }) {
   const { locale, id } = await params;
@@ -38,7 +39,7 @@ export default async function AccountOrderDetailsPage({ params }: { params: Prom
         <div className="flex items-center justify-between">
           <div>
             <div className="text-sm text-gray-700">Order ID: {order.id}</div>
-            <div className="text-sm text-gray-700">Placed on {new Date(order.createdAt).toLocaleString('en-IN')}</div>
+            <div className="text-sm text-gray-700">Placed on {formatDateTimeIST(order.createdAt)}</div>
           </div>
           <span className="text-xs px-2 py-1 rounded bg-gray-100">{order.status}</span>
         </div>

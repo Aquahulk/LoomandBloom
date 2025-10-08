@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 import { prisma } from '@/app/lib/prisma';
 import DeleteOrderButton from './DeleteOrderButton';
 import { formatINR, paiseToRupees } from '@/app/lib/currency';
+import { formatDateIST } from '@/app/lib/date';
 
 export default async function OrdersPage() {
   const orders = await prisma.order.findMany({
@@ -15,6 +16,22 @@ export default async function OrdersPage() {
     },
     orderBy: { createdAt: 'desc' }
   });
+
+  // Helper to determine if an Order represents a service booking (no items, service details in paymentDetails)
+  const isServiceOrder = (order: any) => {
+    if (order.items.length === 0 && order.paymentDetails) {
+      try {
+        const info = JSON.parse(order.paymentDetails as any);
+        if (info?.type === 'service') return true;
+      } catch {}
+      const details = (order as any).paymentDetails as string;
+      if (typeof details === 'string' && details.startsWith('Service:')) return true;
+    }
+    return false;
+  };
+
+  // Show only product orders in this view; service bookings belong to the Bookings tab
+  const productOrders = orders.filter((o) => !isServiceOrder(o));
 
   // Prefetch bookings mapped by paymentId for legacy orders that don't include bookingId in paymentDetails
   const servicePaymentIds = orders
@@ -122,7 +139,7 @@ export default async function OrdersPage() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {orders.map((order) => (
+              {productOrders.map((order) => (
                 <tr key={order.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div>
@@ -238,7 +255,7 @@ export default async function OrdersPage() {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(order.createdAt).toLocaleDateString()}
+                    {formatDateIST(order.createdAt)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex space-x-2">
@@ -269,7 +286,7 @@ export default async function OrdersPage() {
         </div>
       </div>
 
-      {orders.length === 0 && (
+      {productOrders.length === 0 && (
         <div className="text-center py-12">
           <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 2L3 7v11a1 1 0 001 1h12a1 1 0 001-1V7l-7-5zM8 15v-4h4v4H8z" />

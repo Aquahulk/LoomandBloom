@@ -7,6 +7,7 @@ import CancelOrderButton from './CancelOrderButton';
 import OrdersDecor from './OrdersDecor';
 import { formatINR, paiseToRupees } from '@/app/lib/currency';
 import { buildCloudinaryUrl, getPlaceholderImage } from '@/app/lib/cloudinary';
+import { formatDateTimeIST } from '@/app/lib/date';
 
 export default async function AccountOrdersPage({
   params,
@@ -129,7 +130,7 @@ export default async function AccountOrdersPage({
                 </div>
 
                 <div className="text-sm text-gray-900 mb-3">
-                  Placed on {new Date(order.createdAt).toLocaleString('en-IN')}
+                  Placed on {formatDateTimeIST(order.createdAt)}
                 </div>
 
                 {/* Order items or service booking */}

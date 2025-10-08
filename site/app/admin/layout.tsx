@@ -1,11 +1,16 @@
 import Link from 'next/link';
 import { ReactNode } from 'react';
+import { cookies } from 'next/headers';
 
 interface AdminLayoutProps {
   children: ReactNode;
 }
 
-export default function AdminLayout({ children }: AdminLayoutProps) {
+export default async function AdminLayout({ children }: AdminLayoutProps) {
+  const cookieStore = await cookies();
+  const adminAuthenticated = cookieStore.get('admin_authenticated')?.value === 'true';
+  const isAdminRole = cookieStore.get('bp_role')?.value === 'admin';
+  const showSidebar = adminAuthenticated && isAdminRole;
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Admin Header */}
@@ -27,9 +32,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               <Link href="/" className="text-gray-600 hover:text-gray-900 text-sm">
                 View Website
               </Link>
-              <a href="/api/admin/logout" className="text-red-600 hover:text-red-700 text-sm">
-                Logout
-              </a>
+              {showSidebar && (
+                <a href="/api/admin/logout" className="text-red-600 hover:text-red-700 text-sm">
+                  Logout
+                </a>
+              )}
               <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
                 <span className="text-sm font-medium text-gray-700">A</span>
               </div>
@@ -40,6 +47,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
       <div className="flex">
         {/* Sidebar */}
+        {showSidebar && (
         <aside className="w-64 bg-white shadow-sm min-h-screen">
           <nav className="mt-8">
             <div className="px-4 space-y-2">
@@ -101,6 +109,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </div>
           </nav>
         </aside>
+        )}
 
         {/* Main Content */}
         <main className="flex-1 p-8">

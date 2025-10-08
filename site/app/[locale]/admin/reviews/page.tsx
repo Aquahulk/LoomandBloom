@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from 'react';
+import { formatDateTimeIST } from '@/app/lib/date';
 
 type Review = {
   id: string;
@@ -51,7 +52,7 @@ export default function AdminReviewsPage() {
               <div>
                 <div className="font-semibold text-gray-900">{r.name} <span className="text-yellow-500 ml-2">{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</span></div>
                 <div className="text-sm text-gray-700 mt-1">{r.comment}</div>
-                <div className="text-xs text-gray-400 mt-1">{r.orderId ? `Order: ${r.orderId}` : 'No order reference'} • {new Date(r.createdAt).toLocaleString()}</div>
+                <div className="text-xs text-gray-400 mt-1">{r.orderId ? `Order: ${r.orderId}` : 'No order reference'} • {formatDateTimeIST(r.createdAt)}</div>
               </div>
               <button className="btn btn-danger" onClick={() => remove(r.id)}>Delete</button>
             </div>

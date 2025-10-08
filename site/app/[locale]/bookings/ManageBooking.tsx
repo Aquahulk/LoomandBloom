@@ -23,6 +23,16 @@ export default function ManageBooking() {
   const [state, setState] = useState('');
   const [postalCode, setPostalCode] = useState('');
 
+  // Format minutes-from-midnight into a human-friendly 12-hour time label
+  function formatTimeLabel(minutes: number) {
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+    const hour12 = ((h + 11) % 12) + 1;
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const mm = m.toString().padStart(2, '0');
+    return `${hour12}:${mm} ${ampm}`;
+  }
+
   // Prefill from query params or route params and auto-load when ID is present
   useEffect(() => {
     try {
@@ -184,7 +194,7 @@ export default function ManageBooking() {
       {booking && (
         <div className="space-y-3 border rounded p-4">
           <div className="font-semibold">{booking?.service?.name || 'Service'}</div>
-          <div className="text-sm text-gray-600">Current: {booking.date}</div>
+          <div className="text-sm text-gray-600">Current: {booking.date} • {formatTimeLabel(booking.startMinutes)} - {formatTimeLabel((booking.startMinutes || 0) + (booking.durationMinutes || 120))}</div>
           <div className="flex items-center gap-3">
             <label className="font-medium">New date:</label>
             <input type="date" className="border rounded px-2 py-1" value={date} onChange={async e => { setDate(e.target.value); if (booking?.service?.slug) { await loadSlots(booking.service.slug, e.target.value); } }} />

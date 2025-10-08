@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { prisma } from '@/app/lib/prisma';
 import { buildCloudinaryUrl } from '@/app/lib/cloudinary-server';
 import { getSettings } from '@/app/lib/settings';
+import MobileMenu from '@/app/components/MobileMenu';
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] });
@@ -155,7 +156,7 @@ export default async function LocaleLayout({
                       </div>
                     )}
                     <span className="text-base font-bold text-emerald-50">Bharat Pushpam</span>
-                  </Link>
+  </Link>
                 </div>
                 
                 <nav className="hidden md:flex items-center space-x-6">
@@ -177,6 +178,9 @@ export default async function LocaleLayout({
                 </nav>
                 
                 <div className="flex items-center space-x-3">
+                  {/** Mobile-only menu (three-dot) placed beside Cart */}
+                  {/* Import placed at top: MobileMenu */}
+                  
                   {session ? (
                     <div className="flex items-center space-x-3">
                       <span className="text-sm text-emerald-100">Hi, {session.name || session.email}</span>
@@ -210,6 +214,10 @@ export default async function LocaleLayout({
                     <span className="text-xs font-medium">Cart</span>
                     <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-red-500 text-xs text-white flex items-center justify-center" id="cart-count">0</span>
                   </Link>
+                  {/* Mobile menu trigger */}
+                  {/* eslint-disable-next-line @next/next/no-document-import-in-page */}
+                  {/* The component hides on md+ via its own classes */}
+                  <MobileMenu locale={locale} />
                 </div>
               </div>
             </div>

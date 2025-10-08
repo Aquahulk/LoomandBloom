@@ -46,6 +46,7 @@ type Settings = {
     deliveryFee: number;
     rateLimitWindowMs: number;
     rateLimitMaxRequests: number;
+    allowedPincodePrefixes?: string[];
   };
   bookings: {
     bookingMaxDaysAdvance: number;
@@ -269,6 +270,14 @@ export default function SettingsForm({ initial }: { initial: Settings }) {
             <div>
               <label className="text-sm font-medium">Rate Limit Max Requests <span className="text-xs text-gray-500">(per window)</span></label>
               <input type="number" className="input w-full" value={settings.checkout.rateLimitMaxRequests} onChange={e => update('checkout.rateLimitMaxRequests', parseInt(e.target.value || '0', 10))} />
+            </div>
+            <div className="md:col-span-3">
+              <label className="text-sm font-medium">Allowed Pincode Prefixes <span className="text-xs text-gray-500">(comma separated; e.g. 411, 412, 4131)</span></label>
+              <input
+                className="input w-full"
+                value={(settings.checkout.allowedPincodePrefixes || []).join(',')}
+                onChange={e => update('checkout.allowedPincodePrefixes', e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+              />
             </div>
           </div>
         </section>

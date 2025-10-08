@@ -83,6 +83,25 @@ export function validatePincode(pincode: string): boolean {
   return pincodeRegex.test(pincode);
 }
 
+// Validate pincode against allowed prefixes/list (e.g., Pune-only)
+export function isPincodeAllowed(
+  pincode: string,
+  allowedPrefixes: string[] = [],
+  allowedList: string[] = []
+): boolean {
+  if (!validatePincode(pincode)) return false;
+  // Exact allow-list wins
+  if (allowedList && allowedList.length > 0) {
+    if (allowedList.includes(pincode)) return true;
+  }
+  // Prefix-based allow
+  if (allowedPrefixes && allowedPrefixes.length > 0) {
+    return allowedPrefixes.some(prefix => pincode.startsWith(prefix));
+  }
+  // If no restrictions provided, allow any valid pincode
+  return true;
+}
+
 // Rate limiting store (in production, use Redis)
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
 

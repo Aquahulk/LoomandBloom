@@ -20,6 +20,7 @@ export async function GET(_req: NextRequest) {
         deliveryFee: settings.checkout.deliveryFee,
         minOrderValue: settings.checkout.minOrderValue,
         maxOrderValue: settings.checkout.maxOrderValue,
+        allowedPincodePrefixes: (settings.checkout as any).allowedPincodePrefixes || [],
       }
     });
   } catch (error) {

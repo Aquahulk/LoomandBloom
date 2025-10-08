@@ -4,6 +4,7 @@ import { prisma } from '@/app/lib/prisma';
 import { getSessionFromRequest } from '@/app/lib/auth';
 import { headers } from 'next/headers';
 import { getSettings } from '@/app/lib/settings';
+import { isPincodeAllowed, validatePincode } from '@/app/lib/security';
 
 // Rate limiting store (in production, use Redis)
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
@@ -193,6 +194,22 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Enforce allowed delivery area (Pune district) using settings prefixes
+    const pincode = (customerInfo.pincode || '').toString().trim();
+    if (!validatePincode(pincode)) {
+      return NextResponse.json(
+        { error: 'Please enter a valid 6-digit pincode' },
+        { status: 400 }
+      );
+    }
+    const allowedPrefixes = (settings.checkout as any).allowedPincodePrefixes || [];
+    if (!isPincodeAllowed(pincode, allowedPrefixes)) {
+      return NextResponse.json(
+        { error: 'We currently deliver only within Pune (Maharashtra) district pincodes.' },
+        { status: 400 }
+      );
+    }
+
     // Create order in database first
 
     // Create order in database first
@@ -205,7 +222,7 @@ export async function POST(req: NextRequest) {
         phone: customerInfo.phone || null,
         address: customerInfo.address || 'Not provided',
         city: customerInfo.city || 'Not provided',
-        pincode: customerInfo.pincode || '000000',
+        pincode: pincode || '000000',
         totalMrp: itemsSubtotal,
         totalPrice: amount,
         shippingFee: shippingFee,

@@ -48,6 +48,7 @@ export type Settings = {
     deliveryFee: number; // in paise
     rateLimitWindowMs: number;
     rateLimitMaxRequests: number;
+    allowedPincodePrefixes?: string[];
   };
   bookings: {
     bookingMaxDaysAdvance: number;
@@ -113,6 +114,9 @@ const defaults: Settings = {
     deliveryFee: 5000, // ₹50 default delivery fee
     rateLimitWindowMs: 60_000,
     rateLimitMaxRequests: 5,
+    // Allow only Pune district pincodes by default; admin can edit prefixes
+    // 411xxx, 412xxx cover most of Pune city/rural; 4131xx includes Baramati/Indapur
+    allowedPincodePrefixes: ['411', '412', '4131'],
   },
   bookings: {
     bookingMaxDaysAdvance: 30,
@@ -134,7 +138,7 @@ function settingsPath() {
 export async function getSettings(): Promise<Settings> {
   try {
     // Prefer database-backed settings for serverless deployments
-    const record = await prisma.siteSettings.findUnique({ where: { id: 'main' } });
+    const record = await (prisma as any).siteSettings?.findUnique({ where: { id: 'main' } });
     if (record?.data) {
       return mergeSettings(record.data as any);
     }
@@ -153,7 +157,7 @@ export async function saveSettings(partial: Partial<Settings>): Promise<Settings
   const merged = mergeSettings({ ...current, ...partial });
   // Persist in database first to support Vercel's read-only filesystem
   try {
-    await prisma.siteSettings.upsert({
+    await (prisma as any).siteSettings.upsert({
       where: { id: 'main' },
       update: { data: merged },
       create: { id: 'main', data: merged }
@@ -222,6 +226,9 @@ function mergeSettings(input: any): Settings {
       deliveryFee: num(input?.checkout?.deliveryFee, defaults.checkout.deliveryFee),
       rateLimitWindowMs: num(input?.checkout?.rateLimitWindowMs, defaults.checkout.rateLimitWindowMs),
       rateLimitMaxRequests: num(input?.checkout?.rateLimitMaxRequests, defaults.checkout.rateLimitMaxRequests),
+      allowedPincodePrefixes: Array.isArray(input?.checkout?.allowedPincodePrefixes)
+        ? input.checkout.allowedPincodePrefixes.filter((p: any) => typeof p === 'string')
+        : (defaults.checkout as any).allowedPincodePrefixes,
     },
     bookings: {
       bookingMaxDaysAdvance: num(input?.bookings?.bookingMaxDaysAdvance, defaults.bookings.bookingMaxDaysAdvance),

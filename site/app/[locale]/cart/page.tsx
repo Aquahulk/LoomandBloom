@@ -17,7 +17,7 @@ export default function CartPage() {
   const [loading, setLoading] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [razorpayLoaded, setRazorpayLoaded] = useState(false);
-  const [checkoutSettings, setCheckoutSettings] = useState<{ freeDeliveryThreshold: number; deliveryFee: number; taxPercent?: number }>({ freeDeliveryThreshold: 99900, deliveryFee: 5000, taxPercent: 0 });
+  const [checkoutSettings, setCheckoutSettings] = useState<{ freeDeliveryThreshold: number; deliveryFee: number; taxPercent?: number; allowedPincodePrefixes?: string[] }>({ freeDeliveryThreshold: 99900, deliveryFee: 5000, taxPercent: 0, allowedPincodePrefixes: [] });
 
   useEffect(() => {
     // Load cart from localStorage only on client side
@@ -73,6 +73,7 @@ export default function CartPage() {
             freeDeliveryThreshold: data.checkout.freeDeliveryThreshold ?? 99900,
             deliveryFee: data.checkout.deliveryFee ?? 5000,
             taxPercent: data?.invoice?.taxPercent ?? 0,
+            allowedPincodePrefixes: data.checkout.allowedPincodePrefixes ?? [],
           });
         }
       } catch (e) {
@@ -171,6 +172,18 @@ export default function CartPage() {
       // Validate required fields
       if (!customerInfo.name || !customerInfo.phone || !customerInfo.address) {
         throw new Error('Please fill in all required fields');
+      }
+
+      // Validate pincode for Pune district (client-side friendly check)
+      const pin = (customerInfo.pincode || '').trim();
+      const pinRegex = /^[1-9][0-9]{5}$/;
+      if (!pinRegex.test(pin)) {
+        throw new Error('Please enter a valid 6-digit pincode');
+      }
+      const prefixes = checkoutSettings.allowedPincodePrefixes || [];
+      const isAllowed = prefixes.length === 0 ? true : prefixes.some(p => pin.startsWith(p));
+      if (!isAllowed) {
+        throw new Error('We currently deliver only within Pune (Maharashtra) district pincodes.');
       }
 
       // Prepare secure order data

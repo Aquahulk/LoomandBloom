@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { ReactNode } from 'react';
 import { cookies } from 'next/headers';
 
+export const dynamic = 'force-dynamic';
+
 interface AdminLayoutProps {
   children: ReactNode;
 }

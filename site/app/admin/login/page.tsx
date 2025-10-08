@@ -24,14 +24,16 @@ export default function AdminLogin() {
           username: credentials.username,
           password: credentials.password,
         }),
+        // Ensure auth cookies from the response are stored immediately
+        credentials: 'include',
+        cache: 'no-store',
       });
 
       const data = await res.json().catch(() => ({}));
 
       if (res.ok && data?.ok) {
-        // Redirect to admin dashboard; cookie is set by API
-        router.push('/admin');
-        router.refresh();
+        // Redirect with a full navigation so cookies are read immediately
+        window.location.assign('/admin');
       } else {
         alert(data?.error || 'Invalid credentials');
       }

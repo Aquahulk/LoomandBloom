@@ -7,7 +7,8 @@ export default async function AdminLayout({ children, params }: { children: Reac
   const cookieStore = await cookies();
   const adminAuthenticated = cookieStore.get('admin_authenticated')?.value === 'true';
   const isAdminRole = cookieStore.get('bp_role')?.value === 'admin';
-  const showSidebar = adminAuthenticated && isAdminRole;
+  // Do not render sidebar on localized admin routes; admin is only at /admin
+  const showSidebar = false;
   return (
     <div className={showSidebar ? 'min-h-screen grid grid-cols-[240px_1fr]' : 'min-h-screen'}>
       {showSidebar && (

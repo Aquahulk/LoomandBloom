@@ -78,9 +78,8 @@ export async function POST(req: NextRequest) {
         name: 'admin_authenticated',
         value: 'true',
         httpOnly: true,
-        path: '/'
-        ,
-        sameSite: 'strict',
+        path: '/',
+        sameSite: 'lax',
         maxAge: 60 * 60, // 1 hour session
         secure: process.env.NODE_ENV === 'production',
       });
@@ -90,7 +89,7 @@ export async function POST(req: NextRequest) {
         value: 'admin',
         httpOnly: true,
         path: '/',
-        sameSite: 'strict',
+        sameSite: 'lax',
         maxAge: 60 * 60,
         secure: process.env.NODE_ENV === 'production',
       });

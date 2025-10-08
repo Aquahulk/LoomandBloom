@@ -43,8 +43,18 @@ export default function middleware(request: NextRequest) {
   const locales = ['en', 'hi', 'mr'];
   const isLocalizedAdmin = locales.some((l) => pathname.startsWith(`/${l}/admin`));
 
+  // Force all localized admin routes to non-localized /admin
+  // e.g., /en/admin/products -> /admin/products
+  if (isLocalizedAdmin) {
+    const localeMatch = pathname.match(/^\/(en|hi|mr)\/admin(\/.*)?$/);
+    const suffix = localeMatch?.[2] || '';
+    const targetPath = `/admin${suffix}`;
+    const url = new URL(targetPath + request.nextUrl.search, request.url);
+    return NextResponse.redirect(url);
+  }
+
   // Handle admin routes (including localized paths like /en/admin)
-  if (pathname.startsWith('/admin') || isLocalizedAdmin) {
+  if (pathname.startsWith('/admin')) {
     return adminMiddleware(request);
   }
   // Protect admin APIs server-side via middleware

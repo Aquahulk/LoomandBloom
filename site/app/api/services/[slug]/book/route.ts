@@ -9,6 +9,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ slu
   if (settings.maintenanceMode) {
     return NextResponse.json({ error: 'Bookings are temporarily disabled' }, { status: 503 });
   }
+  // Require authenticated user session for creating a booking
+  const session = getSessionFromRequest(req);
+  if (!session) {
+    return NextResponse.json({ error: 'Please login to book a service' }, { status: 401 });
+  }
   const { slug } = await params;
   const body = await req.json();
   const { date, startMinutes, customerName, customerPhone, customerEmail, notes,
@@ -33,7 +38,6 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ slu
 
     // If logged-in user is on hold, block booking
     try {
-      const session = getSessionFromRequest(req);
       if (session) {
         const user = await prisma.user.findUnique({ where: { email: session.email } });
         if (user?.isOnHold) {

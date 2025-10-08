@@ -223,4 +223,12 @@ model ServiceBooking {
   // Exclusivity is enforced at application level for CONFIRMED bookings
 }
 
+// Persistent site-wide settings storage to support serverless deployments (e.g., Vercel)
+model SiteSettings {
+  id        String   @id @default("main")
+  data      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 

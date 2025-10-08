@@ -5,6 +5,11 @@ import { getSessionFromRequest } from '@/app/lib/auth';
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    // Require authenticated user session to initiate payment for a booking
+    const session = getSessionFromRequest(req);
+    if (!session) {
+      return NextResponse.json({ error: 'Please login to proceed with payment' }, { status: 401 });
+    }
     const { id } = await params;
 
     const keyId = process.env.RAZORPAY_KEY_ID;
@@ -29,7 +34,6 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
     // If logged-in user is on hold, block payment initiation for booking
     try {
-      const session = getSessionFromRequest(req);
       if (session) {
         const user = await prisma.user.findUnique({ where: { email: session.email } });
         if (user?.isOnHold) {

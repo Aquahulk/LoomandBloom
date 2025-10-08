@@ -1,5 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { prisma } from '@/app/lib/prisma';
 // Avoid importing bcrypt in this module to keep it safe for server-rendered public pages
 
 export type Settings = {
@@ -132,6 +133,12 @@ function settingsPath() {
 
 export async function getSettings(): Promise<Settings> {
   try {
+    // Prefer database-backed settings for serverless deployments
+    const record = await prisma.siteSettings.findUnique({ where: { id: 'main' } });
+    if (record?.data) {
+      return mergeSettings(record.data as any);
+    }
+    // Fallback to file-based settings (useful for local dev)
     const file = settingsPath();
     const raw = await fs.readFile(file, 'utf-8');
     const parsed = JSON.parse(raw);
@@ -144,16 +151,30 @@ export async function getSettings(): Promise<Settings> {
 export async function saveSettings(partial: Partial<Settings>): Promise<Settings> {
   const current = await getSettings();
   const merged = mergeSettings({ ...current, ...partial });
-  const file = settingsPath();
-  // Ensure directory exists
-  await fs.mkdir(path.dirname(file), { recursive: true });
-  const toPersist: any = JSON.parse(JSON.stringify(merged));
-  // Ensure we never persist plaintext password
-  if (toPersist.admin) {
-    delete toPersist.admin.password;
+  // Persist in database first to support Vercel's read-only filesystem
+  try {
+    await prisma.siteSettings.upsert({
+      where: { id: 'main' },
+      update: { data: merged },
+      create: { id: 'main', data: merged }
+    });
+    return merged;
+  } catch (dbErr) {
+    // Fallback to writing to local file (useful in local dev)
+    try {
+      const file = settingsPath();
+      await fs.mkdir(path.dirname(file), { recursive: true });
+      const toPersist: any = JSON.parse(JSON.stringify(merged));
+      if (toPersist.admin) {
+        delete toPersist.admin.password;
+      }
+      await fs.writeFile(file, JSON.stringify(toPersist, null, 2), 'utf-8');
+      return merged;
+    } catch (fileErr) {
+      // Propagate an error if both DB and file writes fail
+      throw fileErr;
+    }
   }
-  await fs.writeFile(file, JSON.stringify(toPersist, null, 2), 'utf-8');
-  return merged;
 }
 
 function mergeSettings(input: any): Settings {

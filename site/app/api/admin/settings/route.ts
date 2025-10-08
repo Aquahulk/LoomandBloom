@@ -25,6 +25,8 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ ok: true, settings: updated });
   } catch (e: any) {
     console.error('Update settings error:', e);
-    return NextResponse.json({ error: 'Failed to update settings' }, { status: 500 });
+    // Provide clearer error on serverless platforms with read-only FS
+    const msg = (process.env.VERCEL ? 'Failed to update settings (database migration required on Vercel).' : 'Failed to update settings');
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }

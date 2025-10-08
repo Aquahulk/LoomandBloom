@@ -7,7 +7,13 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
   const service = await prisma.service.findUnique({ where: { slug } });
 
   if (!service) {
-    return <div className="max-w-3xl mx-auto p-6">Service not found.</div>;
+    return (
+      <div className="max-w-3xl mx-auto p-6 space-y-4">
+        <div className="text-xl font-semibold">This service is currently unavailable.</div>
+        <p className="text-gray-700">Our garden services are still available — please explore other services.</p>
+        <a href={`/${(await params).locale}/services`} className="inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">View All Services</a>
+      </div>
+    );
   }
 
   return (

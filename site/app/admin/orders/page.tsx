@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { prisma } from '@/app/lib/prisma';
 import DeleteOrderButton from './DeleteOrderButton';
 import { formatINR, paiseToRupees } from '@/app/lib/currency';

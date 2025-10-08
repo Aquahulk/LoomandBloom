@@ -19,6 +19,7 @@ export default function BookingWidget({ serviceSlug }: { serviceSlug: string }) 
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [postalCode, setPostalCode] = useState('');
+  const [allowedPrefixes, setAllowedPrefixes] = useState<string[]>([]);
   const [success, setSuccess] = useState<string | null>(null);
 
   function normalizeDate(input: string) {
@@ -55,6 +56,25 @@ export default function BookingWidget({ serviceSlug }: { serviceSlug: string }) 
     return () => clearInterval(timer);
   }, [date]);
 
+  // Load public settings to get bookings allowed pincode prefixes (fallback to Pune defaults)
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch('/api/settings', { cache: 'no-store' });
+        const data = await res.json();
+        const prefixes = data?.bookings?.allowedPincodePrefixes || data?.checkout?.allowedPincodePrefixes || [];
+        if (Array.isArray(prefixes) && prefixes.length > 0) {
+          setAllowedPrefixes(prefixes);
+        } else {
+          // Pune district defaults
+          setAllowedPrefixes(['411', '412', '4131']);
+        }
+      } catch {
+        setAllowedPrefixes(['411', '412', '4131']);
+      }
+    })();
+  }, []);
+
   async function book() {
     if (!selectedStart || !name || !phone) {
       setError('Please select a slot and enter name & phone');
@@ -63,6 +83,23 @@ export default function BookingWidget({ serviceSlug }: { serviceSlug: string }) 
     setError(null);
     setSuccess(null);
     try {
+      // Validate address fields compulsory
+      const line1 = (addressLine1 || '').trim();
+      const cty = (city || '').trim();
+      const pin = (postalCode || '').trim();
+      if (!line1 || !cty || !pin) {
+        throw new Error('Please fill Address line 1, City and Pincode');
+      }
+      // Validate pincode format and allowed prefixes (Maharashtra Pune-only)
+      const pinRegex = /^[1-9][0-9]{5}$/;
+      if (!pinRegex.test(pin)) {
+        throw new Error('Please enter a valid 6-digit pincode');
+      }
+      const isAllowed = allowedPrefixes.length === 0 ? true : allowedPrefixes.some(p => pin.startsWith(p));
+      if (!isAllowed) {
+        throw new Error('We currently serve only Pune (Maharashtra) district pincodes for services.');
+      }
+
       const res = await fetch(`/api/services/${serviceSlug}/book`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

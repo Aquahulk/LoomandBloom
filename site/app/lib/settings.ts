@@ -122,7 +122,8 @@ const defaults: Settings = {
     bookingMaxDaysAdvance: 30,
     sameDayCutoffMinutes: 720, // 12:00 PM
     blackoutDates: [],
-    serviceAllowedPincodes: [],
+    // Default to Pune district pincodes for service bookings as well
+    serviceAllowedPincodes: ['411', '412', '4131'],
     capacityPerSlot: 5,
   },
   notifications: {

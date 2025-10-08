@@ -21,6 +21,17 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ slug
     // Use NextRequest.nextUrl for reliability in dev and edge runtimes
     const dateParam = req.nextUrl.searchParams.get('date');
 
+    // India timezone helpers
+    const INDIA_TZ = 'Asia/Kolkata';
+    function getIndiaToday(): string {
+      return new Date().toLocaleDateString('en-CA', { timeZone: INDIA_TZ });
+    }
+    function getIndiaNowMinutes(): number {
+      const hm = new Intl.DateTimeFormat('en-GB', { timeZone: INDIA_TZ, hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date());
+      const [h, m] = hm.split(':').map(n => parseInt(n, 10));
+      return h * 60 + m;
+    }
+
     // Normalize date to YYYY-MM-DD (supports DD-MM-YYYY input)
     const date = (() => {
       if (!dateParam) return null;
@@ -38,12 +49,13 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ slug
     } catch (_) {}
 
     if (!date) {
-      const todayLocal = new Date().toLocaleDateString('en-CA');
+      const todayLocal = getIndiaToday();
       // Fallback to today if date is missing
       return NextResponse.json({ success: true, date: todayLocal, slots: getSlotStarts().map(start => ({
         startMinutes: start,
         label: `${formatTimeLabel(start)} - ${formatTimeLabel(start + 120)}`,
-        booked: start <= (new Date().getHours() * 60 + new Date().getMinutes())
+        // Do not mark past slots as booked here; booking API enforces past-time rule
+        booked: false
       })) });
     }
 
@@ -61,19 +73,15 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ slug
     const bookedSet = new Set(bookings.filter(b => b.status === 'CONFIRMED').map(b => b.startMinutes));
 
     // Determine local "today" and current time to disable past slots
-    const now = new Date();
-    const todayLocal = now.toLocaleDateString('en-CA'); // YYYY-MM-DD in local time
-    const nowMinutes = now.getHours() * 60 + now.getMinutes();
+    const todayLocal = getIndiaToday(); // YYYY-MM-DD in India time
+    const nowMinutes = getIndiaNowMinutes();
 
-    const slots = getSlotStarts().map(start => {
-      const isPastToday = date === todayLocal && start <= nowMinutes;
-      return {
-        startMinutes: start,
-        label: `${formatTimeLabel(start)} - ${formatTimeLabel(start + 120)}`,
-        // Treat past slots as booked/unavailable so UI disables them
-        booked: bookedSet.has(start) || isPastToday
-      };
-    });
+    const slots = getSlotStarts().map(start => ({
+      startMinutes: start,
+      label: `${formatTimeLabel(start)} - ${formatTimeLabel(start + 120)}`,
+      // Only block slots that are actually CONFIRMED; past-time enforcement happens in booking API
+      booked: bookedSet.has(start)
+    }));
 
     try {
       console.log('[slots] response', { date, slotsCount: slots.length });

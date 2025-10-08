@@ -19,6 +19,17 @@ export default function CartPage() {
   const [razorpayLoaded, setRazorpayLoaded] = useState(false);
   const [checkoutSettings, setCheckoutSettings] = useState<{ freeDeliveryThreshold: number; deliveryFee: number; taxPercent?: number; allowedPincodePrefixes?: string[] }>({ freeDeliveryThreshold: 99900, deliveryFee: 5000, taxPercent: 0, allowedPincodePrefixes: [] });
 
+  // Auto-cancel stale pending orders/bookings (10 minutes) when the cart page loads
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      fetch('/api/payments/cleanup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ minutes: 10 })
+      }).catch(() => {});
+    }
+  }, []);
+
   useEffect(() => {
     // Load cart from localStorage only on client side
     if (typeof window !== 'undefined') {
@@ -242,13 +253,30 @@ export default function CartPage() {
         handler: function (response: any) {
           // Send payment verification to server
           verifyPayment(response, data.order.id);
+        },
+        // Cancel order if user dismisses the Razorpay modal
+        modal: {
+          ondismiss: async () => {
+            try {
+              if (data.orderId) {
+                await fetch(`/api/payments/order/${data.orderId}/cancel`, { method: 'POST' });
+              }
+            } catch {}
+            // Redirect to Orders page
+            window.location.href = `/en/account/orders`;
+          }
         }
       } as any;
 
       // @ts-ignore
       const rzp = new window.Razorpay(options);
       // Provide detailed failure info to help diagnose issues
-      rzp.on('payment.failed', function (response: any) {
+      rzp.on('payment.failed', async function (response: any) {
+        try {
+          if (data.orderId) {
+            await fetch(`/api/payments/order/${data.orderId}/cancel`, { method: 'POST' });
+          }
+        } catch {}
         const err = response?.error || {};
         const details = [
           err.code && `Code: ${err.code}`,
@@ -256,6 +284,7 @@ export default function CartPage() {
           err.description && `Description: ${err.description}`
         ].filter(Boolean).join('\n');
         alert(`Payment failed. ${details || ''}`.trim());
+        window.location.href = `/en/account/orders`;
       });
       rzp.open();
     } catch (e: any) {

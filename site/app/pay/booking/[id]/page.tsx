@@ -80,6 +80,19 @@ export default function PayBookingPage({ params }: { params: Promise<{ id: strin
         notes: {
           bookingId: booking.id
         },
+        modal: {
+          ondismiss: async () => {
+            try {
+              await fetch(`/api/payments/booking/${booking.id}/cancel`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ reason: 'dismissed' })
+              });
+            } catch (_) {}
+            alert('Payment cancelled.');
+            window.location.href = `/account/orders`;
+          }
+        },
         handler: async function (response: any) {
           // Verify payment and update booking
           try {
@@ -97,18 +110,21 @@ export default function PayBookingPage({ params }: { params: Promise<{ id: strin
             if (verifyData.success) {
               setBooking(verifyData.booking);
               alert('Payment successful! Booking confirmed.');
+              window.location.href = `/account/orders`;
             } else {
               alert('Payment verification failed.');
+              window.location.href = `/account/orders`;
             }
           } catch (err) {
             alert('Payment verification error.');
+            window.location.href = `/account/orders`;
           }
         }
       };
 
       // @ts-ignore
       const rzp = new window.Razorpay(options);
-      rzp.on('payment.failed', function (response: any) {
+      rzp.on('payment.failed', async function (response: any) {
         const err = response?.error || {};
         const details = [
           err.code && `Code: ${err.code}`,
@@ -116,6 +132,14 @@ export default function PayBookingPage({ params }: { params: Promise<{ id: strin
           err.description && `Description: ${err.description}`
         ].filter(Boolean).join('\n');
         alert(`Payment failed. ${details || ''}`.trim());
+        try {
+          await fetch(`/api/payments/booking/${booking.id}/cancel`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reason: 'payment_failed' })
+          });
+        } catch (_) {}
+        window.location.href = `/account/orders`;
       });
       rzp.open();
       // Fallback: poll booking status until confirmed
@@ -159,6 +183,11 @@ export default function PayBookingPage({ params }: { params: Promise<{ id: strin
             <div className="space-y-2">
               <p className="text-green-700">Booking confirmed and payment recorded.</p>
               <a href="/account/orders" className="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Go to My Orders</a>
+            </div>
+          ) : booking.status === 'CANCELLED' ? (
+            <div className="space-y-2">
+              <p className="text-red-700">Payment cancelled. This booking won’t be processed.</p>
+              <a href="/account/orders" className="inline-block bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800">Go to My Orders</a>
             </div>
           ) : (
             <div className="space-y-2">

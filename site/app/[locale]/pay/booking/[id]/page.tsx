@@ -10,6 +10,17 @@ export default function PayBookingPage({ params }: { params: Promise<{ locale: s
   const [loading, setLoading] = useState(true);
   const { showToast } = useToast();
 
+  // Fire-and-forget cleanup to auto-cancel stale pending orders/bookings
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      fetch('/api/payments/cleanup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ minutes: 10 })
+      }).catch(() => {});
+    }
+  }, []);
+
   useEffect(() => {
     (async () => {
       const { id } = await params;
@@ -80,6 +91,22 @@ export default function PayBookingPage({ params }: { params: Promise<{ locale: s
           contact: booking.customerPhone || ''
         },
         notes: { bookingId: booking.id },
+        modal: {
+          // When user closes/dismisses the Razorpay popup, cancel booking and redirect
+          ondismiss: async () => {
+            try {
+              await fetch(`/api/payments/booking/${booking.id}/cancel`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ reason: 'dismissed' })
+              });
+            } catch (_) {}
+            showToast({ variant: 'error', title: 'Payment cancelled', description: 'You dismissed the payment.' });
+            // Redirect to orders page
+            const { locale } = await params;
+            window.location.href = `/${locale}/account/orders`;
+          }
+        },
         handler: async function (response: any) {
           try {
             const verifyRes = await fetch('/api/payments/booking/verify', {
@@ -96,18 +123,24 @@ export default function PayBookingPage({ params }: { params: Promise<{ locale: s
             if (verifyData.success) {
               setBooking(verifyData.booking);
               showToast({ variant: 'success', title: 'Payment successful', description: 'Booking confirmed.' });
+              const { locale } = await params;
+              window.location.href = `/${locale}/account/orders`;
             } else {
               showToast({ variant: 'error', title: 'Payment verification failed' });
+              const { locale } = await params;
+              window.location.href = `/${locale}/account/orders`;
             }
           } catch (err) {
             showToast({ variant: 'error', title: 'Payment verification error' });
+            const { locale } = await params;
+            window.location.href = `/${locale}/account/orders`;
           }
         }
       };
 
       // @ts-ignore
       const rzp = new window.Razorpay(options);
-      rzp.on('payment.failed', function (response: any) {
+      rzp.on('payment.failed', async function (response: any) {
         const err = response?.error || {};
         const details = [
           err.code && `Code: ${err.code}`,
@@ -115,6 +148,15 @@ export default function PayBookingPage({ params }: { params: Promise<{ locale: s
           err.description && `Description: ${err.description}`
         ].filter(Boolean).join('\n');
         showToast({ variant: 'error', title: 'Payment failed', description: details || undefined });
+        try {
+          await fetch(`/api/payments/booking/${booking.id}/cancel`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reason: 'payment_failed' })
+          });
+        } catch (_) {}
+        const { locale } = await params;
+        window.location.href = `/${locale}/account/orders`;
       });
       rzp.open();
       // Fallback: poll booking status until confirmed
@@ -158,6 +200,11 @@ export default function PayBookingPage({ params }: { params: Promise<{ locale: s
             <div className="space-y-2">
               <p className="text-green-700">Booking confirmed and payment recorded.</p>
               <a href="/en/account/orders" className="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Go to My Orders</a>
+            </div>
+          ) : booking.status === 'CANCELLED' ? (
+            <div className="space-y-2">
+              <p className="text-red-700">Payment cancelled. This booking won’t be processed.</p>
+              <a href="/en/account/orders" className="inline-block bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800">Go to My Orders</a>
             </div>
           ) : (
             <div className="space-y-2">

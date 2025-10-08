@@ -21,6 +21,9 @@ export async function GET(_req: NextRequest) {
         minOrderValue: settings.checkout.minOrderValue,
         maxOrderValue: settings.checkout.maxOrderValue,
         allowedPincodePrefixes: (settings.checkout as any).allowedPincodePrefixes || [],
+      },
+      bookings: {
+        allowedPincodePrefixes: (settings.bookings as any).serviceAllowedPincodes || []
       }
     });
   } catch (error) {

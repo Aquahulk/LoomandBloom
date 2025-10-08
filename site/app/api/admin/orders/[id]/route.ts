@@ -13,9 +13,18 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
 
     const { id } = await params;
 
-    // First delete order items due to FK restriction, then delete the order
-    await prisma.orderItem.deleteMany({ where: { orderId: id } });
-    await prisma.order.delete({ where: { id } });
+    // Check existence to avoid Prisma P2025 when deleting non-existent order
+    const existing = await prisma.order.findUnique({ where: { id } });
+    if (!existing) {
+      // Idempotent behavior: return 404 to indicate not found, rather than 500
+      return NextResponse.json({ error: 'Order not found' }, { status: 404 });
+    }
+
+    // First delete order items due to FK restriction, then delete the order (atomic)
+    await prisma.$transaction([
+      prisma.orderItem.deleteMany({ where: { orderId: id } }),
+      prisma.order.delete({ where: { id } })
+    ]);
 
     return NextResponse.json({ success: true });
   } catch (error: any) {

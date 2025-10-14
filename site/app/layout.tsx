@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Bharat Pushpam",
-  description: "Plants, planters, and garden services.",
+  title: "Loom and Bloom",
+  description: "Women’s jewelry and accessories — necklaces, bracelets, earrings, and more.",
 };
 export const viewport = {
   width: 'device-width',

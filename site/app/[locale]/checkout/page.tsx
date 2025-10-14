@@ -45,7 +45,7 @@ export default function CheckoutPage() {
         key: keyId,
         amount: data.order.amount,
         currency: data.order.currency,
-        name: 'Bharat Pushpam',
+  name: 'Loom and Bloom',
         description: 'Demo Order',
         order_id: data.order.id,
         handler: function () {

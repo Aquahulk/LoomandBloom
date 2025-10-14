@@ -18,9 +18,7 @@ export default async function AdminLayout({ children, params }: { children: Reac
             <Link href={`${base}`}>Dashboard</Link>
             <Link href={`${base}/products`}>Products</Link>
             <Link href={`${base}/categories`}>Categories</Link>
-            <Link href={`${base}/services`}>Services</Link>
             <Link href={`${base}/orders`}>Orders</Link>
-            <Link href={`${base}/bookings`}>Bookings</Link>
           </nav>
         </aside>
       )}

@@ -15,21 +15,21 @@ const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin']
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   return {
-    title: 'Bharat Pushpam - Plants, Planters & Garden Services',
-    description: 'Shop indoor plants, outdoor plants, planters, and garden services. Free delivery on orders above ₹999. Expert plant care and maintenance.',
-    keywords: 'plants, planters, garden services, indoor plants, outdoor plants, air purifying plants, plant maintenance',
+    title: 'Loom and Bloom - Jewelry & Women’s Accessories',
+    description: 'Shop necklaces, bracelets, earrings, rings, hair accessories, and more. Free delivery on orders above ₹999. Premium quality and gift-ready packaging.',
+    keywords: 'jewelry, accessories, necklaces, bracelets, earrings, rings, women, fashion, gifts',
     openGraph: {
-      title: 'Bharat Pushpam - Plants, Planters & Garden Services',
-      description: 'Shop indoor plants, outdoor plants, planters, and garden services. Free delivery on orders above ₹999.',
+      title: 'Loom and Bloom - Jewelry & Women’s Accessories',
+      description: 'Discover elegant necklaces, bracelets, earrings, rings, and hair accessories.',
       url: 'https://bharatpushpam.com',
-      siteName: 'Bharat Pushpam',
+      siteName: 'Loom and Bloom',
       locale: locale,
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Bharat Pushpam - Plants, Planters & Garden Services',
-      description: 'Shop indoor plants, outdoor plants, planters, and garden services. Free delivery on orders above ₹999.',
+      title: 'Loom and Bloom - Jewelry & Women’s Accessories',
+      description: 'Shop necklaces, bracelets, earrings, rings, hair accessories, and more.',
     },
     alternates: {
       canonical: `https://bharatpushpam.com/${locale}`,
@@ -107,10 +107,10 @@ export default async function LocaleLayout({
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "Bharat Pushpam",
+            "name": "Loom and Bloom",
             "url": "https://bharatpushpam.com",
             "logo": logoSrc || "https://bharatpushpam.com/logo.png",
-            "description": "Plants, planters, and garden services",
+            "description": "Women’s jewelry and accessories",
             "contactPoint": {
               "@type": "ContactPoint",
               "telephone": "+91-7755963959",
@@ -155,16 +155,13 @@ export default async function LocaleLayout({
                         </svg>
                       </div>
                     )}
-                    <span className="text-base font-bold text-emerald-50">Bharat Pushpam</span>
+                    <span className="text-base font-bold text-emerald-50">Loom and Bloom</span>
   </Link>
                 </div>
                 
                 <nav className="hidden md:flex items-center space-x-6">
                   <Link href={`/${locale}/products`} prefetch={false} className="text-sm text-emerald-100 hover:text-white transition-colors">
-                    Products
-                  </Link>
-                  <Link href={`/${locale}/services`} prefetch={false} className="text-sm text-emerald-100 hover:text-white transition-colors">
-                    Services
+                    Accessories
                   </Link>
                   <Link href={`/${locale}/account/orders`} prefetch={false} className="text-sm text-emerald-100 hover:text-white transition-colors">
                     My Orders
@@ -227,16 +224,15 @@ export default async function LocaleLayout({
             <div className="max-w-6xl mx-auto px-4 py-8">
               <div className="grid md:grid-cols-3 gap-8">
                 <div>
-                  <h3 className="font-semibold mb-2 text-emerald-50">Bharat Pushpam</h3>
+                  <h3 className="font-semibold mb-2 text-emerald-50">Loom and Bloom</h3>
                   <p className="text-sm text-emerald-100/80">
-                    Your trusted partner for plants, planters, and garden services.
+                    Your trusted partner for jewelry and women’s accessories.
                   </p>
                 </div>
                 <div>
                   <h3 className="font-semibold mb-2 text-emerald-50">Quick Links</h3>
                   <div className="space-y-1 text-sm">
                     <Link href={`/${locale}/products`} className="block text-emerald-100 hover:text-white transition">Products</Link>
-                    <Link href={`/${locale}/services`} className="block text-emerald-100 hover:text-white transition">Services</Link>
                     <Link href={`/${locale}/account/orders`} className="block text-emerald-100 hover:text-white transition">My Orders</Link>
                     <Link href={`/${locale}/about`} className="block text-emerald-100 hover:text-white transition">About</Link>
                     <Link href={`/${locale}/contact`} className="block text-emerald-100 hover:text-white transition">Contact</Link>
@@ -271,7 +267,7 @@ export default async function LocaleLayout({
                 </div>
               </div>
               <div className="mt-8 pt-4 text-center text-sm text-emerald-100/70 border-t border-white/10">
-                <p>&copy; 2024 Bharat Pushpam. All rights reserved.</p>
+                <p>&copy; 2024 Loom and Bloom. All rights reserved.</p>
               </div>
             </div>
             <div aria-hidden className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-green-500 opacity-70" />

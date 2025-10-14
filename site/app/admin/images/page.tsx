@@ -33,7 +33,7 @@ export default async function AdminImages() {
           <LegendItem type="HERO" label="Homepage hero background" />
           <LegendItem type="BANNER" label="Homepage promotional card" />
           <LegendItem type="PROMO" label="Homepage promotional card" />
-          <LegendItem type="FRESH_PLANT" label="Fresh Plants Boxes" />
+          <LegendItem type="FRESH_PLANT" label="Featured Accessories Boxes" />
           <LegendItem type="ABOUT_US" label="About Us Section" />
           <LegendItem type="OTHER" label="Not shown on homepage" />
         </div>
@@ -101,7 +101,7 @@ function getPlacementLabel(type?: string) {
     case 'PROMO':
       return 'Promo card';
     case 'FRESH_PLANT':
-      return 'Fresh Plants box';
+      return 'Featured Accessories box';
     case 'ABOUT_US':
       return 'About Us image';
     default:

@@ -56,7 +56,7 @@ export default function AdminLogin() {
           </div>
         </div>
         <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
-          Bharat Pushpam Admin
+    Loom and Bloom Admin
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
           Sign in to your admin account

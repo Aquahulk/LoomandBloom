@@ -45,7 +45,7 @@ export default async function AdminDashboard() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600">Welcome to Bharat Pushpam Admin Panel</p>
+  <p className="text-gray-600">Welcome to Loom and Bloom Admin Panel</p>
       </div>
 
       {/* Stats Grid */}

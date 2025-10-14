@@ -39,10 +39,7 @@ export default function MobileMenu({ locale }: { locale: string }) {
         <div className="absolute right-0 mt-2 w-40 rounded-md border border-green-700 bg-white shadow-lg z-50">
           <div className="py-2">
             <Link href={`/${locale}/products`} prefetch={false} className="block px-3 py-2 text-sm text-green-800 hover:bg-emerald-50">
-              Products
-            </Link>
-            <Link href={`/${locale}/services`} prefetch={false} className="block px-3 py-2 text-sm text-green-800 hover:bg-emerald-50">
-              Services
+              Accessories
             </Link>
             <Link href={`/${locale}/account/orders`} prefetch={false} className="block px-3 py-2 text-sm text-green-800 hover:bg-emerald-50">
               My Orders

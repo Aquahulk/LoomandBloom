@@ -69,7 +69,7 @@ export default function PayBookingPage({ params }: { params: Promise<{ id: strin
         key: keyId,
         amount: data.order.amount,
         currency: data.order.currency,
-        name: 'Bharat Pushpam',
+  name: 'Loom and Bloom',
         description: booking.service?.name || 'Service Booking',
         order_id: data.order.id,
         prefill: {

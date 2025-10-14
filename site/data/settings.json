@@ -5,14 +5,14 @@
   "whatsappNumber": "7755963959",
   "storeAddress": "",
   "about": {
-    "heading": "About Bharat Pushpam",
-    "intro": "We provide curated indoor and outdoor plants, pots & planters, and garden services to help you create beautiful green spaces.",
+    "heading": "About Loom and Bloom",
+    "intro": "We create elegant jewelry and women’s accessories — necklaces, bracelets, earrings, rings, and hair accessories — crafted to elevate your everyday style.",
     "highlights": [
-      "Expert plant selection and care guidance",
+      "Nickel-free, skin-friendly materials",
       "Free delivery on orders above ₹999",
-      "Plant maintenance and care services",
-      "Plants on rent for events and offices",
-      "Plant hostel service for when you're away"
+      "Gift-ready packaging",
+      "Made in India craftsmanship",
+      "Timeless, versatile designs"
     ],
     "social": {
       "instagram": "",
@@ -22,7 +22,7 @@
   },
   "contact": {
     "heading": "Contact Us",
-    "intro": "Have questions about our plants or services? Send us a message and we'll respond as soon as possible."
+    "intro": "Have questions about our jewelry or accessories? Send us a message and we'll respond as soon as possible."
   },
   "legal": {
     "privacy": "Your privacy is important to us. We collect only necessary information to process orders and improve our services. We do not sell your personal data. Contact us for any data-related requests.",
@@ -33,7 +33,7 @@
     "passwordHash": ""
   },
   "invoice": {
-    "companyName": "Bharat Pushpam",
+    "companyName": "Loom and Bloom",
     "companyAddress": "Shop No. 24, Ganga Altus, Near Manipal Hospital, Kharadi - 411014",
     "gstNumber": "",
     "logoPublicId": "",

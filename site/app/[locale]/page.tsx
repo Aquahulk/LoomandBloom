@@ -11,7 +11,6 @@ import { buildCloudinaryUrl, getPlaceholderImage } from '@/app/lib/cloudinary';
 import { Reveal, Tilt, Parallax } from '@/app/components/Interactive';
 import { formatINR, paiseToRupees } from '@/app/lib/currency';
 import HoldBanner from '@/app/components/HoldBanner';
-import HeroVideoOverlay from '@/app/components/HeroVideoOverlay';
 
 export const revalidate = 300;
 
@@ -159,12 +158,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           quality={92}
           className="object-cover"
         />
-        {/* Jungle video overlay above banner image, behind text */}
-        {true && (
-          // lightweight overlay using Wix-hosted mp4 provided
-          // pointer-events disabled so links remain clickable
-          <HeroVideoOverlay />
-        )}
+        {/* Video overlay removed to keep hero static */}
         {/* Gradient mesh overlay above banner image for modern depth */}
         <div aria-hidden className="mesh-bg" />
         {/* Animated blobs for dynamic ambiance */}
@@ -186,21 +180,21 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <div className="relative max-w-6xl mx-auto px-4 pt-16 pb-20 grid md:grid-cols-2 gap-10 items-center">
           <Reveal>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-white/90 backdrop-blur-md border border-white/30 text-xs mb-4 animate-fade-in-up">
-              <span>🌿 Premium Plants & Services</span>
+              <span>💎 Premium Jewelry & Accessories</span>
               <span className="w-1 h-1 rounded-full bg-white/70" />
               <span>Free delivery over ₹999</span>
             </div>
 
             <h1 className="text-4xl md:text-6xl font-extrabold text-white leading-tight text-balance animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              Bring Nature Home with
-              <span className="block text-white/90">Bharat Pushpam</span>
+              Elevate Your Style with
+              <span className="block text-white/90">Loom and Bloom</span>
             </h1>
             <p className="text-white/85 mt-4 max-w-xl text-balance animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              Curated indoor & outdoor plants, designer planters, and expert maintenance. Freshly delivered, beautifully nurtured.
+              Curated necklaces, bracelets, earrings, rings, and hair accessories. Gift-ready packaging, premium materials, and timeless designs.
             </p>
             <div className="mt-6 flex flex-col sm:flex-row gap-3 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
               <Link href={`/${locale}/products`} className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-white text-green-700 font-semibold shadow-lg shadow-black/10 hover:shadow-xl hover:translate-y-[-1px] active:translate-y-[0] transition group">
-                Shop Plants
+                Shop Accessories
                 <svg className="ml-2 w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
               </Link>
               <a href={waHref} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-green-700/20 text-white border border-white/30 hover:bg-white/20 transition">
@@ -219,8 +213,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   <div className="absolute inset-0 bg-gradient-to-br from-white/80 to-green-50/80" />
                   <div className="relative h-full w-full flex items-center justify-center">
                     <Image
-                      src={isPlaceholder ? getPlaceholderImage(240, 160, 'Fresh Plant') : (plant.url || (plant.publicId ? buildCloudinaryUrl(plant.publicId) : getPlaceholderImage(240, 160, 'Fresh Plant')))}
-                      alt={isPlaceholder ? "Fresh Plant" : (plant.title || "Fresh Plant")}
+                      src={isPlaceholder ? getPlaceholderImage(240, 160, 'Featured Accessory') : (plant.url || (plant.publicId ? buildCloudinaryUrl(plant.publicId) : getPlaceholderImage(240, 160, 'Featured Accessory')))}
+                      alt={isPlaceholder ? "Featured Accessory" : (plant.title || "Featured Accessory")}
                       width={240}
                       height={160}
                       className="object-cover rounded-xl drop-shadow-sm"
@@ -245,22 +239,22 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </div>
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 animate-fade-in-left">About Bharat Pushpam</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 animate-fade-in-left">About Loom and Bloom</h2>
             <p className="mt-3 text-gray-700 text-balance animate-fade-in-left" style={{ animationDelay: '0.2s' }}>
-              We blend botany with design to bring joy to homes and workplaces. From curated plants to premium planters and care services, we make greenery simple, beautiful, and fun.
+              We craft elegant jewelry and accessories designed to elevate your everyday style. From delicate necklaces to statement earrings and bracelets, our collections blend timeless design with premium materials.
             </p>
             <div className="mt-6 flex flex-wrap gap-2 animate-fade-in-left" style={{ animationDelay: '0.4s' }}>
-              <span className="chip chip-small">Eco-friendly</span>
+              <span className="chip chip-small">Nickel-free</span>
               <span className="chip chip-small">Made in India</span>
-              <span className="chip chip-small">Expert Care</span>
-              <span className="chip chip-small">Community</span>
+              <span className="chip chip-small">Gift-ready</span>
+              <span className="chip chip-small">Timeless Design</span>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4 animate-fade-in-right">
             <div className="relative h-40 rounded-2xl overflow-hidden animated-gradient-border shadow card-hover bg-white">
               <Image 
-                src={aboutUs[0]?.url || (aboutUs[0]?.publicId ? buildCloudinaryUrl(aboutUs[0].publicId, 800, 300) : getPlaceholderImage(800, 300, 'Nursery'))} 
-                alt={aboutUs[0]?.title || "Our nursery"} 
+                src={aboutUs[0]?.url || (aboutUs[0]?.publicId ? buildCloudinaryUrl(aboutUs[0].publicId, 800, 300) : getPlaceholderImage(800, 300, 'Studio'))} 
+                alt={aboutUs[0]?.title || "Our studio"} 
                 fill 
                 sizes="(max-width: 768px) 100vw, 50vw"
                 quality={85}
@@ -270,8 +264,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
             <div className="relative h-40 rounded-2xl overflow-hidden animated-gradient-border shadow card-hover bg-white">
               <Image 
-                src={aboutUs[1]?.url || (aboutUs[1]?.publicId ? buildCloudinaryUrl(aboutUs[1].publicId, 800, 300) : getPlaceholderImage(800, 300, 'Team'))} 
-                alt={aboutUs[1]?.title || "Our team"} 
+                src={aboutUs[1]?.url || (aboutUs[1]?.publicId ? buildCloudinaryUrl(aboutUs[1].publicId, 800, 300) : getPlaceholderImage(800, 300, 'Artisans'))} 
+                alt={aboutUs[1]?.title || "Our artisans"} 
                 fill 
                 sizes="(max-width: 768px) 100vw, 50vw"
                 quality={85}
@@ -281,8 +275,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             </div>
             <div className="relative h-40 rounded-2xl overflow-hidden animated-gradient-border shadow card-hover bg-white col-span-2">
               <Image 
-                src={aboutUs[2]?.url || (aboutUs[2]?.publicId ? buildCloudinaryUrl(aboutUs[2].publicId, 1200, 300) : getPlaceholderImage(1200, 300, 'Greenhouse'))} 
-                alt={aboutUs[2]?.title || "Our greenhouse"} 
+                src={aboutUs[2]?.url || (aboutUs[2]?.publicId ? buildCloudinaryUrl(aboutUs[2].publicId, 1200, 300) : getPlaceholderImage(1200, 300, 'Jewelry Showcase'))} 
+                alt={aboutUs[2]?.title || "Our showcase"} 
                 fill 
                 sizes="(max-width: 768px) 100vw, 1000px"
                 quality={85}
@@ -310,14 +304,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="py-12 section-amber">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-gray-900 text-balance animate-fade-in-up">Why choose Bharat Pushpam?</h2>
-            <p className="text-gray-600 mt-2 text-balance animate-fade-in-up" style={{ animationDelay: '0.2s' }}>Trusted quality, expert care, and joyful unboxing.</p>
+            <h2 className="text-3xl font-bold text-gray-900 text-balance animate-fade-in-up">Why choose Loom and Bloom?</h2>
+            <p className="text-gray-600 mt-2 text-balance animate-fade-in-up" style={{ animationDelay: '0.2s' }}>Premium materials, skin-friendly wear, and gift-ready packaging.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               { title: 'Free Delivery', desc: 'On orders over ₹999', icon: '🚚', count: '500+' },
-              { title: 'Expert Maintenance', desc: 'Professional plant care', icon: '🧑‍🌾', count: '1K+' },
-              { title: 'Premium Quality', desc: 'Handpicked and healthy', icon: '✨', count: '99%' },
+              { title: 'Hypoallergenic', desc: 'Nickel-free & skin-friendly', icon: '💖', count: '1K+' },
+              { title: 'Premium Quality', desc: 'Handcrafted & durable', icon: '✨', count: '99%' },
             ].map((f, i) => (
               <div key={f.title} className="rounded-2xl border border-gray-100 shadow-sm p-6 hover:shadow-md transition bg-gradient-to-br from-white to-green-50/30 glass animate-fade-in-up" style={{ animationDelay: `${0.2 * i}s` }}>
                 <div className="text-3xl mb-3 animate-bounce-slow">{f.icon}</div>
@@ -380,9 +374,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="py-12 section-emerald">
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-6">
           {(banners.length ? banners : [
-            { id: 'placeholder-1', title: 'Summer Green Sale', description: 'Up to 25% off', color: 'from-emerald-700 to-emerald-600' },
-            { id: 'placeholder-2', title: 'New Arrivals', description: 'Fresh stock weekly', color: 'from-green-700 to-green-600' },
-            { id: 'placeholder-3', title: 'Care & Maintenance', description: 'Plans starting ₹499', color: 'from-teal-700 to-teal-600' },
+            { id: 'placeholder-1', title: 'Summer Style Sale', description: 'Up to 25% off', color: 'from-emerald-700 to-emerald-600' },
+            { id: 'placeholder-2', title: 'New Jewelry Arrivals', description: 'Fresh designs weekly', color: 'from-green-700 to-green-600' },
+            { id: 'placeholder-3', title: 'Gift Packaging', description: 'Complimentary on select orders', color: 'from-teal-700 to-teal-600' },
           ]).map((b, i) => (
             <div key={b.id || b.title} className={`relative rounded-2xl p-6 text-white ${b.color ? `bg-gradient-to-br ${b.color}` : 'bg-gradient-to-br from-emerald-700 to-emerald-600'} overflow-hidden backdrop-blur-md border border-white/20 animate-fade-in-up`} style={{ animationDelay: `${0.2 * i}s` }}>
               {b.url || b.publicId ? (
@@ -406,10 +400,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <div aria-hidden className="plant fern plant-center-right z-10" />
         <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-4">
           {(() => { const featShades = ['from-emerald-50 to-emerald-100','from-green-50 to-green-100','from-teal-50 to-teal-100','from-lime-50 to-lime-100']; return [
-            { t: 'Indoor Elegance' },
-            { t: 'Outdoor Classics' },
-            { t: 'Low Maintenance' },
-            { t: 'Premium Planters' },
+            { t: 'Necklaces' },
+            { t: 'Bracelets' },
+            { t: 'Earrings' },
+            { t: 'Rings' },
           ].map((c, i) => (
             <div key={c.t} className={`group relative h-36 rounded-2xl overflow-hidden border border-green-100 bg-gradient-to-br ${featShades[i % featShades.length]} animate-fade-in-up`} style={{ animationDelay: `${0.1 * i}s` }}>
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition shine" />
@@ -426,7 +420,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <section className="py-14 section-sky">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 text-balance animate-fade-in-up">Happy Plant Parents</h2>
+            <h2 className="text-3xl font-bold text-gray-900 text-balance animate-fade-in-up">Happy Customers</h2>
             <p className="text-gray-600 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>Real reviews from our customers</p>
           </div>
           <ReviewsSection locale={locale} />
@@ -438,7 +432,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <div aria-hidden className="noise absolute inset-0 pointer-events-none" />
         <div className="max-w-6xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-4 animate-fade-in-up">Stay in the Loop</h2>
-          <p className="text-gray-600 mb-8 max-w-md mx-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>Get exclusive plant tips, deals, and new arrival alerts straight to your inbox.</p>
+          <p className="text-gray-600 mb-8 max-w-md mx-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>Get exclusive style tips, deals, and new arrival alerts straight to your inbox.</p>
           <div className="max-w-md mx-auto bg-white/80 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-green-100 animate-float">
             <form className="space-y-4">
               <input type="email" placeholder="Enter your email" className="w-full px-4 py-3 rounded-xl border border-green-200 focus:border-green-500 focus:outline-none transition" />

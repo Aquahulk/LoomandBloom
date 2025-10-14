@@ -22,7 +22,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ locale
   if (!order || order.email !== session.email) return notFound();
 
   const brand = settings.invoice ?? {
-    companyName: 'Bharat Pushpam',
+  companyName: 'Loom and Bloom',
     companyAddress: settings.storeAddress || '',
     gstNumber: '',
     logoPublicId: '',

@@ -237,7 +237,7 @@ export default function CartPage() {
         key: keyId,
         amount: data.order.amount,
         currency: data.order.currency,
-        name: 'Bharat Pushpam',
+  name: 'Loom and Bloom',
         description: `Order for ${cart.length} items`,
         order_id: data.order.id,
         prefill: {

@@ -31,11 +31,17 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
-        pathname: '/dkwrsd0qc/**',
+        pathname: '/dlma4zgwz/**',
       },
       {
         protocol: 'https',
         hostname: 'via.placeholder.com',
+        pathname: '/**',
+      },
+      // Allow any additional Cloudinary accounts if needed
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
         pathname: '/**',
       },
     ],

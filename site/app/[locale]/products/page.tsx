@@ -51,8 +51,8 @@ export default async function ProductsIndex({ params, searchParams }: { params: 
         <HoldBanner />
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-1">Our Plant Collection</h1>
-          <p className="text-gray-600">Curated plants and planters for every space</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-1">Our Accessories Collection</h1>
+          <p className="text-gray-600">Curated jewelry and accessories for every occasion</p>
         </div>
 
         <div className="grid lg:grid-cols-12 gap-8">

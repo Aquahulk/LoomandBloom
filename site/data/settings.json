@@ -2,7 +2,7 @@
   "maintenanceMode": false,
   "holdBannerText": "Your account is on hold. Please contact support to get it unhold.",
   "supportEmail": "support@example.com",
-  "whatsappNumber": "7755963959",
+  "whatsappNumber": "6260122094",
   "storeAddress": "",
   "about": {
     "heading": "About Loom and Bloom",
@@ -30,7 +30,7 @@
   },
   "admin": {
     "username": "admin",
-    "passwordHash": ""
+    "passwordHash": "$2b$12$sEmmGasDvcsKkaFBg2ADqOD3N4.8gt2FuIwLfUXHyZsFPP9Zrduq."
   },
   "invoice": {
     "companyName": "Loom and Bloom",

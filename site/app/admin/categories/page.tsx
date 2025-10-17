@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { formatDateIST } from '@/app/lib/date';
 import { useRouter } from 'next/navigation';
+import DeleteAllCategoriesButton from '@/app/admin/categories/DeleteAllCategoriesButton';
 
 interface Category {
   id: string;
@@ -71,7 +72,7 @@ export default function CategoriesPage() {
   };
 
   const handleDeleteCategory = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this category? This will also delete all products in this category.')) {
+    if (!confirm('Delete this category? This will delete its products that have no existing orders.')) {
       return;
     }
 
@@ -104,7 +105,13 @@ export default function CategoriesPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Admin: Categories</h1>
+        <div className="flex gap-3">
+          <DeleteAllCategoriesButton />
+        </div>
+      </div>
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
@@ -231,8 +238,7 @@ export default function CategoriesPage() {
                       <button
                         onClick={() => handleDeleteCategory(category.id)}
                         className="text-red-600 hover:text-red-900 transition-colors"
-                        disabled={category._count.products > 0}
-                        title={category._count.products > 0 ? 'Cannot delete category with products' : 'Delete category'}
+                        title="Delete category"
                       >
                         Delete
                       </button>

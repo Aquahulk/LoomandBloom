@@ -4,6 +4,7 @@ import { formatINR, paiseToRupees } from '@/app/lib/currency';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { OrderStatus } from '@prisma/client';
+import { buildCloudinaryUrl } from '@/app/lib/cloudinary';
 
 export default async function OrderDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id: orderId } = await params;
@@ -243,7 +244,7 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
                     <div className="flex items-center">
                       {item.product.images && item.product.images[0] && (
                         <img 
-                          src={item.product.images[0].publicId ? `https://res.cloudinary.com/dkwrsd0qc/image/upload/w_100/${item.product.images[0].publicId}` : ''} 
+                          src={item.product.images[0].publicId ? buildCloudinaryUrl(item.product.images[0].publicId, 100) : ''} 
                           alt={item.product.name} 
                           className="h-10 w-10 object-cover rounded mr-3"
                         />

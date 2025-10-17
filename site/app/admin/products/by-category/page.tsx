@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { prisma } from '@/app/lib/prisma';
 import { buildCloudinaryUrl } from '@/app/lib/cloudinary';
 import { formatINR, paiseToRupees } from '@/app/lib/currency';
+import DeleteProductButton from '@/app/admin/products/DeleteProductButton';
+import DeleteAllProductsButton from '@/app/admin/products/DeleteAllProductsButton';
 
 export default async function ProductsByCategoryPage() {
   const categories = await prisma.category.findMany({
@@ -43,6 +45,7 @@ export default async function ProductsByCategoryPage() {
             </svg>
             Add Product
           </Link>
+          <DeleteAllProductsButton />
         </div>
       </div>
 
@@ -143,9 +146,7 @@ export default async function ProductsByCategoryPage() {
                         >
                           View
                         </Link>
-                        <button className="text-red-600 hover:text-red-900">
-                          Delete
-                        </button>
+                        <DeleteProductButton id={product.id} slug={product.slug} orderItemsCount={product._count.orderItems} />
                       </div>
                     </td>
                   </tr>

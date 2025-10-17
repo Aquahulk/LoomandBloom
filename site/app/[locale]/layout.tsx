@@ -113,12 +113,12 @@ export default async function LocaleLayout({
             "description": "Women’s jewelry and accessories",
             "contactPoint": {
               "@type": "ContactPoint",
-              "telephone": "+91-7755963959",
+              "telephone": "+91-6260122094",
               "contactType": "customer service",
               "availableLanguage": ["English", "Hindi", "Marathi"]
             },
             "sameAs": [
-              "https://wa.me/917755963959"
+              "https://wa.me/916260122094"
             ]
           })
         }}
@@ -198,7 +198,7 @@ export default async function LocaleLayout({
                     </svg>
                     <span className="text-xs font-medium">Search</span>
                   </Link>
-                  <a href="https://wa.me/917755963959" target="_blank" rel="noopener noreferrer" className="hidden sm:flex items-center space-x-1 px-3 py-1.5 bg-white/15 text-emerald-50 rounded-md border border-white/30 hover:bg-white/25 transition-colors">
+                  <a href="https://wa.me/916260122094" target="_blank" rel="noopener noreferrer" className="hidden sm:flex items-center space-x-1 px-3 py-1.5 bg-white/15 text-emerald-50 rounded-md border border-white/30 hover:bg-white/25 transition-colors">
                     <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M20 2H4a2 2 0 00-2 2v16l4-4h14a2 2 0 002-2V4a2 2 0 00-2-2z" />
                     </svg>
@@ -243,7 +243,7 @@ export default async function LocaleLayout({
                 <div>
                   <h3 className="font-semibold mb-2 text-emerald-50">Contact</h3>
                   <div className="space-y-1 text-sm text-emerald-100/80">
-                    <p>WhatsApp: <a href="https://wa.me/917755963959" className="text-emerald-200 hover:text-white">7755963959</a></p>
+                    <p>WhatsApp: <a href="https://wa.me/916260122094" className="text-emerald-200 hover:text-white">6260122094</a></p>
                     <p>Free delivery on orders above ₹999</p>
                   </div>
                   {socialEntries.length > 0 && (

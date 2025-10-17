@@ -211,7 +211,7 @@ export default function SettingsForm({ initial }: { initial: Settings }) {
               <input className="input w-full" value={settings.supportEmail} onChange={e => update('supportEmail', e.target.value)} />
             </div>
             <div>
-              <label className="text-sm font-medium">WhatsApp Number <span className="text-xs text-gray-500">(e.g. 9009491983)</span></label>
+              <label className="text-sm font-medium">WhatsApp Number <span className="text-xs text-gray-500">(e.g. 6260122094)</span></label>
               <input className="input w-full" value={settings.whatsappNumber} onChange={e => update('whatsappNumber', e.target.value)} />
             </div>
             <div className="md:col-span-2">

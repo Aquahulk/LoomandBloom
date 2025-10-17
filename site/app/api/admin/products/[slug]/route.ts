@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/app/lib/prisma';
 import { uploadImage } from '@/app/lib/cloudinary-server';
+import { deleteImage } from '@/app/lib/cloudinary-server';
 
 export async function GET(
   req: NextRequest,
@@ -56,6 +57,59 @@ export async function PATCH(
   return handleUpdate(req, params);
 }
 
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+) {
+  try {
+    const { slug } = await params;
+    if (!slug) {
+      return NextResponse.json({ error: 'Product slug is required' }, { status: 400 });
+    }
+
+    const product = await prisma.product.findUnique({
+      where: { slug },
+      include: {
+        images: true,
+        _count: { select: { orderItems: true } }
+      }
+    });
+
+    if (!product) {
+      return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+    }
+
+    if (product._count.orderItems > 0) {
+      return NextResponse.json(
+        { error: 'Cannot delete a product that has existing orders.' },
+        { status: 400 }
+      );
+    }
+
+    for (const img of product.images) {
+      if (img.publicId) {
+        try {
+          await deleteImage(img.publicId);
+        } catch (e) {
+          console.warn('Cloudinary deletion failed for', img.publicId, e);
+        }
+      }
+    }
+
+    await prisma.$transaction([
+      prisma.productImage.deleteMany({ where: { productId: product.id } }),
+      prisma.variant.deleteMany({ where: { productId: product.id } }),
+      prisma.review.deleteMany({ where: { productId: product.id } }),
+      prisma.product.delete({ where: { id: product.id } }),
+    ]);
+
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
+    console.error('Error deleting product:', error);
+    return NextResponse.json({ error: 'Failed to delete product' }, { status: 500 });
+  }
+}
+
 async function handleUpdate(
   req: NextRequest,
   params: Promise<{ slug: string }>
@@ -96,8 +150,8 @@ async function handleUpdate(
     const stock = parseInt(formData.get('stock') as string);
     const categoryId = formData.get('categoryId') as string;
 
-    // Validate required fields
-    if (!name || !description || !price || isNaN(price) || !sku || !stock || isNaN(stock) || !categoryId) {
+    // Validate required fields (allow stock=0)
+    if (!name || !description || !price || isNaN(price) || !sku || isNaN(stock) || stock < 0 || !categoryId) {
       return NextResponse.json(
         { error: 'All required fields must be provided and valid' },
         { status: 400 }

@@ -2,7 +2,7 @@
 // Server-side operations should use cloudinary-server.ts
 
 const cloudNameEnv = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-const DEFAULT_CLOUD_NAME = 'dkwrsd0qc';
+const DEFAULT_CLOUD_NAME = 'dlma4zgwz';
 const cloudName = cloudNameEnv || DEFAULT_CLOUD_NAME;
 
 export function buildCloudinaryUrl(publicId: string, width = 800, height?: number) {

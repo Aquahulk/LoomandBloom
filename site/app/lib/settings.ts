@@ -68,7 +68,7 @@ const defaults: Settings = {
   maintenanceMode: false,
   holdBannerText: 'Your account is on hold. Please contact support to get it unhold.',
   supportEmail: 'support@example.com',
-  whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '9009491983',
+  whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '6260122094',
   storeAddress: '',
   about: {
     heading: 'About Loom and Bloom',

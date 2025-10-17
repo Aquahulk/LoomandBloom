@@ -3,6 +3,10 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
+  if (process.env.ALLOW_SEED !== 'true') {
+    console.log('Prisma seeding disabled. Set ALLOW_SEED=true to seed.');
+    return;
+  }
   const categories = [
     'Fragrant Plants',
     'Indoor Plants',

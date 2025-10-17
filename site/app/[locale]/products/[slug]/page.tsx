@@ -5,6 +5,7 @@ import Link from 'next/link';
 import ProductImage from '../ProductImage';
 import AddToCartButton from './AddToCartButton';
 import { formatINR, paiseToRupees } from '@/app/lib/currency';
+import { buildCloudinaryUrl } from '@/app/lib/cloudinary';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; locale: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: product.name,
       description: product.description,
       type: 'website',
-      images: product.images.length > 0 ? [`https://res.cloudinary.com/dkwrsd0qc/image/upload/w_800/${product.images[0].publicId}`] : [],
+      images: product.images.length > 0 ? [buildCloudinaryUrl(product.images[0].publicId, 800)] : [],
     },
   };
 }
@@ -96,7 +97,7 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
           <div className="text-sm text-gray-600">
             <p>✓ Free delivery on orders above ₹999</p>
             <p>✓ Expert plant care guidance</p>
-            <p>✓ WhatsApp support: <a href="https://wa.me/917755963959" className="text-green-600">7755963959</a></p>
+            <p>✓ WhatsApp support: <a href="https://wa.me/916260122094" className="text-green-600">6260122094</a></p>
           </div>
         </div>
       </div>

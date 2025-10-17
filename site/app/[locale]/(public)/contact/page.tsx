@@ -14,7 +14,7 @@ export default function ContactPage() {
     message: ''
   });
   const [storeAddress, setStoreAddress] = useState<string>('');
-  const [whatsappNumber, setWhatsappNumber] = useState<string>('917755963959');
+  const [whatsappNumber, setWhatsappNumber] = useState<string>('6260122094');
 
   useEffect(() => {
     // Load public settings to populate store address and WhatsApp number
@@ -82,10 +82,12 @@ export default function ContactPage() {
               <div>
                 <h3 className="font-medium">WhatsApp</h3>
                 <a
-                  href={`https://wa.me/${whatsappNumber}`}
+                  href={`https://wa.me/91${whatsappNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-green-600 hover:underline"
                 >
-                  {whatsappNumber.replace(/^91/, '')}
+                  Chat on WhatsApp
                 </a>
               </div>
 

@@ -32,6 +32,9 @@ export default function ProductImage({
     return getPlaceholderImage(width, height, name.split(' ')[0]);
   });
 
+  // Allow disabling Next.js image optimization via env for diagnostics
+  const unoptimizedFlag = process.env.NEXT_PUBLIC_IMAGE_UNOPTIMIZED === '1';
+
   const handleError = () => {
     if (!imageError) {
       setImageError(true);
@@ -47,6 +50,7 @@ export default function ProductImage({
       className={className}
       sizes={sizes}
       quality={quality}
+      unoptimized={unoptimizedFlag}
       onError={handleError}
     />
   );

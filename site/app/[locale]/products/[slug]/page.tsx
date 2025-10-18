@@ -7,6 +7,8 @@ import AddToCartButton from './AddToCartButton';
 import { formatINR, paiseToRupees } from '@/app/lib/currency';
 import { buildCloudinaryUrl } from '@/app/lib/cloudinary';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string; locale: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const product = await prisma.product.findUnique({ 

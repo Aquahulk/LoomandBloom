@@ -254,6 +254,25 @@ async function handleUpdate(
       }
     }
 
+    // If new images were uploaded, replace existing product images
+    if (uploadedImages.length > 0) {
+      try {
+        const existingImages = await prisma.productImage.findMany({ where: { productId: existingProduct.id } });
+        for (const img of existingImages) {
+          if (img.publicId) {
+            try {
+              await deleteImage(img.publicId);
+            } catch (e) {
+              console.warn('Cloudinary deletion failed for', img.publicId, e);
+            }
+          }
+        }
+        await prisma.productImage.deleteMany({ where: { productId: existingProduct.id } });
+      } catch (cleanupErr) {
+        console.warn('Failed to cleanup old images before replace:', cleanupErr);
+      }
+    }
+
     // Update product in database
     const product = await prisma.product.update({
       where: { id: existingProduct.id },

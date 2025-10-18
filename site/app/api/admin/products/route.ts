@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/app/lib/prisma';
 import { uploadImage } from '@/app/lib/cloudinary-server';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 // Cloudinary configuration is handled in cloudinary-server.ts
 
@@ -178,6 +179,21 @@ export async function POST(req: NextRequest) {
     
     console.log('Product created successfully:', product.id);
 
+    // Trigger cache revalidation so new product/images appear on Vercel
+    try {
+      const locales = ['en', 'hi', 'mr'];
+      const slugToRevalidate = product.slug;
+      locales.forEach(loc => {
+        revalidatePath(`/${loc}/products/${slugToRevalidate}`);
+        revalidatePath(`/${loc}/products`);
+        revalidatePath(`/${loc}`);
+      });
+      // Invalidate homepage cached data (uses 'home-data' tag)
+      revalidateTag('home-data');
+    } catch (e) {
+      console.warn('Revalidation failed in product create:', e);
+    }
+
     return NextResponse.json({
       success: true,
       product: {
@@ -256,7 +272,6 @@ export async function GET(req: NextRequest) {
         pages: Math.ceil(total / limit)
       }
     });
-
   } catch (error: any) {
     console.error('Error fetching products:', error);
     return NextResponse.json(

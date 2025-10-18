@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/app/lib/prisma';
 import { uploadImage } from '@/app/lib/cloudinary-server';
 import { deleteImage } from '@/app/lib/cloudinary-server';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 export async function GET(
   req: NextRequest,
@@ -282,6 +283,21 @@ async function handleUpdate(
     });
 
     console.log('Product updated successfully:', product.id);
+
+    // Trigger cache revalidation so updates show on Vercel
+    try {
+      const locales = ['en', 'hi', 'mr'];
+      const slugToRevalidate = product.slug;
+      locales.forEach(loc => {
+        revalidatePath(`/${loc}/products/${slugToRevalidate}`);
+        revalidatePath(`/${loc}/products`);
+        revalidatePath(`/${loc}`);
+      });
+      // Invalidate homepage cached data (uses 'home-data' tag)
+      revalidateTag('home-data');
+    } catch (e) {
+      console.warn('Revalidation failed in product update:', e);
+    }
 
     return NextResponse.json({
       success: true,
